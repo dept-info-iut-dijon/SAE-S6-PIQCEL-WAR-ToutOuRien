@@ -1,0 +1,107 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=Inter:400");
+
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    background-image: url(../image/mesh-gradient.png);
+    background-size: cover;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-family: 'Montserrat', sans-serif;
+}
+
+button:focus-visible {
+  outline: 2px solid #4a90e2 !important;
+  outline: -webkit-focus-ring-color auto 5px !important;
+}
+  
+.rectangle {
+    background-color: rgba(255,255,255,.6);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    width: 30em;
+    max-width: 100%;
+    min-height: 47em;
+}
+
+.form-container {
+	top: 0;
+	height: 100%;
+    width:100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.headerform {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+
+.image {
+    padding-top:1em;
+    padding-bottom:1em;
+    width:9em;
+    margin-top: 80px;
+}
+
+.change {
+    position: absolute;
+    padding-top: 4.8cm;
+    margin-left: 3cm;
+    width:1.55em;
+}
+
+.infos {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+label {
+    font-size:1.5em;
+    padding-bottom: 1em;
+    text-align: center;
+}
+
+.email {
+    font-size:1em;
+    color: grey;
+    opacity: 60%;
+    margin-top: 10px;
+}
+
+.buttons {
+    text-align: center;
+}
+
+input {
+    padding:1em;
+    border-radius: 7px;
+    border: none;
+    color:white;
+    background-color: #2b2b5a;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    width: 80%;
+}
+input:hover {
+    cursor:pointer;
+}
+
+.button-logout {
+    background-color: rgb(255, 51, 51);
+    margin-top: 50px;
+}

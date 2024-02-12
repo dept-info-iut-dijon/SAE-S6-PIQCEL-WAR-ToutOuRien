@@ -1,0 +1,54 @@
+{
+  "name": "piqcel-war",
+  "version": "1.0.0",
+  "description": "Student project",
+  "main": "app.js",
+  "scripts": {
+    "dev": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"tsc --watch\" \"nodemon app.js\"",
+    "start": "node app.js",
+    "test": "jest",
+    "test:watch": "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR.git"
+  },
+  "author": "Ines ECHAROUX & Romain BARABANT & Tom TRICHET & Thomas AUTHIER & Mattéo BADET",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR/issues"
+  },
+  "homepage": "https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR#readme",
+  "dependencies": {
+    "@google-cloud/recaptcha-enterprise": "^4.0.1",
+    "axios": "^1.5.1",
+    "bcrypt": "^5.1.1",
+    "cookie": "^0.6.0",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "hbs": "^4.2.0",
+    "mysql": "^2.18.1",
+    "nodemailer": "^6.9.7",
+    "recaptcha-verify": "^0.1.1",
+    "socket.io": "^4.7.2",
+    "sqlite3": "^5.1.6",
+    "typescript-cookie": "^1.0.6"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.4.11",
+    "@types/bcrypt": "^5.0.2",
+    "@types/body-parser": "^1.19.4",
+    "@types/express": "^4.17.20",
+    "@types/jest": "^29.5.5",
+    "@types/mysql": "^2.15.22",
+    "@types/node": "^20.10.0",
+    "@types/nodemailer": "^6.4.14",
+    "concurrently": "^8.2.1",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.1",
+    "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}

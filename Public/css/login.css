@@ -1,0 +1,164 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=Inter:400");
+
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    background-image: url(../image/mesh-gradient.png);
+    background-size: cover;
+}
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	font-family: 'Montserrat', sans-serif;
+}
+button:focus-visible {
+  outline: 2px solid #4a90e2 !important;
+  outline: -webkit-focus-ring-color auto 5px !important;
+}
+a {
+  text-decoration: none;
+}
+
+.headerform {
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+  
+.rectangle {
+    background-color: rgba(255,255,255,.6);
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    min-height: 47em;
+}
+.rectangle.connexion {
+  width: 30em;
+}
+#loginFormStyle {
+    min-height: 30em !important;
+}
+
+.form-container {
+	top: 0;
+	height: 100%;
+    width:100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.image {
+    padding-top:1em;
+    padding-bottom:1em;
+    width:13em
+}
+
+.two h1 {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    font-family: "Raleway", sans-serif;
+    font-weight: 300;
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: 700; color:#202020;
+    text-transform: uppercase;
+    word-spacing: 1px; letter-spacing:2px;
+    text-align:center;
+}
+
+.two h1 span {
+    display: block;
+    font-size: .5em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height: 2em;
+    padding-left: 0.25em;
+    color: rgba(0, 0, 0, 1);
+    padding-bottom: 10px;
+}
+  
+form {
+	display: flex;
+	flex-direction: column;
+	padding: 0 3.125em;
+    max-height: 30em;
+	text-align: center;
+}
+
+form label {
+    font-size:.8em;
+    padding-bottom: 0.5em;
+    text-align: start;
+}
+
+form input {
+    padding:1em;
+    border-radius: 7px;
+    border: none;
+    margin-bottom: 2em;
+}
+  
+.button {
+    color:white;
+    background-color: #2b2b5a;
+    margin-bottom: 0.5em;
+}
+.button:hover {
+    cursor:pointer;
+}
+
+.forgotpsw {
+    font-size : .7em;
+}
+  
+.subscribe {
+    text-align: center;
+    margin: 1em;
+}
+  
+.subscribe a {
+    color: #2b2b5a;
+    font-weight: bold;
+}
+
+.centered {
+    text-align: center;
+}
+
+.g-recaptcha {
+    display : inline-block;
+}
+
+.tooltips {
+    display:flex;
+}
+.tooltips *:not(.tooltip) {
+    flex: 1;
+}
+
+.tooltip {
+    border-radius: 50%;
+    margin-bottom: 2em;
+    margin-left: .8em;
+    cursor: help;
+}
+
+.tooltips img {
+    width: 40px;
+    height:40px;
+}
+
+.oneline {
+  display: inline-block;
+}
