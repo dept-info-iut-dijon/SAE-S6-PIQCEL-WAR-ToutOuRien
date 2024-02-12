@@ -1,5 +1,6 @@
 ### Main ###
 .idea
+App/**/*.js
 
 ### Node ###
 # Logs
