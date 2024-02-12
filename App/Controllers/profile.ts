@@ -19,7 +19,6 @@ class Profile {
     constructor() { 
         let database = createDatabase("sqlite");
         this.accountDAO = new AccountDAO(database);
-        console.log("^^ test oui oui")
     }
 
     /**
@@ -30,30 +29,27 @@ class Profile {
      */
     public async getProfile(req: express.Request, res: express.Response) {
         try {
-            const profileInfo = await this.accountDAO.getByID(req.body.ID);
-
+            const profileInfo = await this.accountDAO.getByID(2);
+    
             if (profileInfo) {
-
-                const { Pseudo, Email } = profileInfo;
-                res.status(200).json({ Pseudo, Email });
-            } 
-            else {
+                // Stockez les données du profil dans un objet
+                const profileData = {
+                    Pseudo: profileInfo.Pseudo,
+                    Email: profileInfo.Email
+                };
+                // Envoyez l'objet de données à la vue
+                res.locals.profileData = profileData;
+            } else {
+                // Gérez le cas où le profil n'est pas trouvé
+                res.locals.profileData = null; // Vous pouvez définir cela comme null ou un objet vide, selon votre logique
                 res.status(404).json({ error: 'Profile not found' });
             }
-
-            return profileInfo;
-        } 
-        catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+        } catch (error) {
+            // Gérez les erreurs
+            res.status(500).send('Erreur interne du serveur');
         }
     }
-
-    /**
-     * Set the profile in the view
-     */
-    public setProfile(){
-
-    }
+    
 }
 
 export { Profile };

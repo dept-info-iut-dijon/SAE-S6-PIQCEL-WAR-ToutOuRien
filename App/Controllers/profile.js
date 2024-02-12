@@ -26,7 +26,6 @@ class Profile {
     constructor() {
         let database = (0, databaseChoice_1.createDatabase)("sqlite");
         this.accountDAO = new accountDAO_1.AccountDAO(database);
-        console.log("^^ sale fils de  eeeeee");
     }
     /**
      * Get nickname and email in database
@@ -37,25 +36,27 @@ class Profile {
     getProfile(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const profileInfo = yield this.accountDAO.getByID(req.body.ID);
+                const profileInfo = yield this.accountDAO.getByID(2);
                 if (profileInfo) {
-                    const { Pseudo, Email } = profileInfo;
-                    res.status(200).json({ Pseudo, Email });
+                    // Stockez les données du profil dans un objet
+                    const profileData = {
+                        Pseudo: profileInfo.Pseudo,
+                        Email: profileInfo.Email
+                    };
+                    // Envoyez l'objet de données à la vue
+                    res.locals.profileData = profileData;
                 }
                 else {
+                    // Gérez le cas où le profil n'est pas trouvé
+                    res.locals.profileData = null; // Vous pouvez définir cela comme null ou un objet vide, selon votre logique
                     res.status(404).json({ error: 'Profile not found' });
                 }
-                return profileInfo;
             }
             catch (error) {
-                res.status(500).json({ error: 'Internal Server Error' });
+                // Gérez les erreurs
+                res.status(500).send('Erreur interne du serveur');
             }
         });
-    }
-    /**
-     * Set the profile in the view
-     */
-    setProfile() {
     }
 }
 exports.Profile = Profile;
