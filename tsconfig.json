@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "module",
     "esModuleInterop": true,
-    "outDir": "./App",
-    "rootDir": "./App",
-    "target": "es6",
+    "outDir": ".",
+    "rootDir": ".",
     "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "strict": true,
+    "moduleResolution": "node",
+    "target": "ES6"
   },
   "include": [
-    "./App/**/*.ts"
+    "./**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
