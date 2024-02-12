@@ -2,7 +2,7 @@ import express from 'express';
 import axios from 'axios';
 import { AccountDAO } from '../Models/DAO/accountDAO';
 import { createDatabase } from '../Data/databaseChoice';
-import { Account } from '../Models/account';
+import { Account } from '../Models/Account';
 import { User } from '../Models/user';
 import { Session } from '../Models/session';
 import { UserDAO } from '../Models/DAO/userDAO';

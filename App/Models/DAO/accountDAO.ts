@@ -1,5 +1,5 @@
 import { IDatabase } from "../../Data/iDatabase";
-import { Account } from "../account";
+import { Account } from "../Account";
 import { UserDAO } from "./userDAO";
 
 /**

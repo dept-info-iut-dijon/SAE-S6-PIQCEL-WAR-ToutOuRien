@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-
-exports.Database = void 0;
+exports.createDatabase = void 0;
 // Import database types here
 const databaseSqlite_1 = require("./sqlite/databaseSqlite");
 const databaseMySQL_1 = require("./mysql/databaseMySQL");

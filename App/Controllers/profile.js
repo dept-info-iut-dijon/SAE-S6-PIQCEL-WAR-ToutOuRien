@@ -26,6 +26,7 @@ class Profile {
     constructor() {
         let database = (0, databaseChoice_1.createDatabase)("sqlite");
         this.accountDAO = new accountDAO_1.AccountDAO(database);
+        console.log("^^ sale fils de  eeeeee");
     }
     /**
      * Get nickname and email in database
@@ -50,6 +51,11 @@ class Profile {
                 res.status(500).json({ error: 'Internal Server Error' });
             }
         });
+    }
+    /**
+     * Set the profile in the view
+     */
+    setProfile() {
     }
 }
 exports.Profile = Profile;

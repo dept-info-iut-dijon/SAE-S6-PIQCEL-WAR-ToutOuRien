@@ -112,13 +112,5 @@ class SessionDAO {
             return result;
         });
     }
-    /**
-     * Delete a session from the database thanks to its token
-     * @param token The token of the session
-     * @returns A promise that resolves when the operation is complete.
-     */
-    deleteSessionByToken(token) {
-        return this.database.execute("DELETE FROM Session WHERE token = ?", [token]);
-    }
 }
 exports.SessionDAO = SessionDAO;

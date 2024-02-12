@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccountDAO = void 0;
-const account_1 = require("../account");
+const Account_1 = require("../Account");
 const userDAO_1 = require("./userDAO");
 /**
  * The Account Data Access Object (DAO) for interacting with the database.
@@ -29,7 +29,7 @@ class AccountDAO {
         return this.database.queryAll("SELECT * FROM Account", []).then((response) => {
             const accountPromises = response.map((row) => {
                 return userDAO.getByID(row.user_id).then((user) => {
-                    return new account_1.Account(row.id, row.email, row.pseudo, row.hash, user);
+                    return new Account_1.Account(row.id, row.email, row.pseudo, row.hash, user);
                 });
             });
             return Promise.all(accountPromises);
@@ -46,7 +46,7 @@ class AccountDAO {
             if (response) {
                 const userDAO = new userDAO_1.UserDAO(this.database);
                 result = userDAO.getByID(response.user_id).then((user) => {
-                    return new account_1.Account(response.id, response.email, response.pseudo, response.hash, user);
+                    return new Account_1.Account(response.id, response.email, response.pseudo, response.hash, user);
                 });
             }
             return result;
@@ -117,7 +117,7 @@ class AccountDAO {
             const userDAO = new userDAO_1.UserDAO(this.database);
             let result = null;
             if (account.hash === password) {
-                result = new account_1.Account(account.id, account.email, account.pseudo, account.hash, yield userDAO.getByID(account.user_id));
+                result = new Account_1.Account(account.id, account.email, account.pseudo, account.hash, yield userDAO.getByID(account.user_id));
             }
             return result;
         });
@@ -150,7 +150,7 @@ class AccountDAO {
                 if (response) {
                     const userDAO = new userDAO_1.UserDAO(this.database);
                     result = userDAO.getByID(response.user_id).then((user) => {
-                        return new account_1.Account(response.id, response.email, response.pseudo, response.hash, user);
+                        return new Account_1.Account(response.id, response.email, response.pseudo, response.hash, user);
                     });
                     ;
                 }

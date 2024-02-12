@@ -8,7 +8,6 @@ const router = express_1.default.Router();
 const authController = new authentification_1.Authentification();
 // Route for rendering the 'index' view
 router.get('/', (req, res) => {
-    console.log(__dirname);
     res.render('index');
 });
 // Route for rendering the 'login' view
@@ -27,9 +26,11 @@ router.get('/signup', (req, res) => {
 router.post('/signup', (req, res) => {
     authController.postsignup(req, res);
 });
+// Route for rendering the 'code' view
 router.get('/code', (req, res) => {
     res.render('code');
 });
+// Route for handling POST request for the code
 router.post('/code', (req, res) => {
     if (authController.isAccessCodeValid(req.body['confirmationCode'])) {
         res.status(200).json({
@@ -49,9 +50,5 @@ router.get('/profil', (req, res) => {
 // Route for rendering the 'changeProfil' view
 router.get('/changeProfile', (req, res) => {
     res.render('changeProfile');
-});
-// Route for rendering the 'helpSupport' view
-router.get('/helpSupport', (req, res) => {
-    res.render('helpSupport');
 });
 module.exports = router;

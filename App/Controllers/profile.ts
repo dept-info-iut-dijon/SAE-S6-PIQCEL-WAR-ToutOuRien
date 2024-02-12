@@ -19,6 +19,7 @@ class Profile {
     constructor() { 
         let database = createDatabase("sqlite");
         this.accountDAO = new AccountDAO(database);
+        console.log("^^ test oui oui")
     }
 
     /**
@@ -28,9 +29,7 @@ class Profile {
      * @param res - The HTTP response object to send a response back to the client.
      */
     public async getProfile(req: express.Request, res: express.Response) {
-
         try {
-
             const profileInfo = await this.accountDAO.getByID(req.body.ID);
 
             if (profileInfo) {
@@ -47,6 +46,13 @@ class Profile {
         catch (error) {
             res.status(500).json({ error: 'Internal Server Error' });
         }
+    }
+
+    /**
+     * Set the profile in the view
+     */
+    public setProfile(){
+
     }
 }
 

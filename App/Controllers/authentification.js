@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,13 +16,12 @@ exports.Authentification = void 0;
 const axios_1 = __importDefault(require("axios"));
 const accountDAO_1 = require("../Models/DAO/accountDAO");
 const databaseChoice_1 = require("../Data/databaseChoice");
-const account_1 = require("../Models/account");
+const Account_1 = require("../Models/Account");
 const user_1 = require("../Models/user");
 const session_1 = require("../Models/session");
 const userDAO_1 = require("../Models/DAO/userDAO");
 const sessionDAO_1 = require("../Models/DAO/sessionDAO");
 const Hash_1 = require("../lib/Hash");
-const cookie = __importStar(require("cookie"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 /**
  * The authentication controller handles operations related to user authentication.
@@ -66,6 +42,28 @@ class Authentification {
         this.userDAO = new userDAO_1.UserDAO(database);
         this.sessionDAO = new sessionDAO_1.SessionDAO(database);
         this.generatedCode = this.generateRandomCode();
+    }
+    /**
+     * Allows us to know who is connected to the website.
+     * @param req Express Request
+     * @param res Express Response
+     */
+    whoIsConnected(req, res) {
+        let token = req.cookies['token'];
+        let session = this.sessionDAO.getSessionByToken(token);
+        if (session != null) {
+            res.status(200).json({
+                success: true,
+                message: 'Utilisateur connecté',
+                session,
+            });
+        }
+        else {
+            res.status(400).json({
+                success: false,
+                message: 'Utilisateur non connecté',
+            });
+        }
     }
     /**
      * Allows a user to disconnect from the website.
@@ -96,11 +94,10 @@ class Authentification {
                     this.validateMailFormat(mail);
                     yield this.validateAccount(mail, psw, psw2, pseudo);
                     const hashedPassword = yield Hash_1.Hash.hashPassword(psw);
-                    const session = yield this.createSessionInDb(mail, pseudo, hashedPassword);
-                    if (session != null) {
-                        this.setSessionCookie(res, 'token', session.Token);
-                        this.handleSuccess(res, 'Inscription réussie', session);
+                    const account = yield this.createAccountInDb(mail, pseudo, hashedPassword);
+                    if (account != null) {
                         this.sendAccessCode(mail);
+                        this.handleSuccessAcc(res, 'Inscription réussie', account);
                     }
                 }
             }
@@ -127,7 +124,10 @@ class Authentification {
                 this.validateLoginInput(mail, psw);
                 const account = yield this.accountDAO.getAccountByMail(mail);
                 if (account != null) {
-                    yield this.createAndSetSession(res, mail, account);
+                    let session = yield this.createSessionInDb(mail);
+                    if (session != null) {
+                        this.handleSuccessAcc(res, 'Connexion réussie', account);
+                    }
                 }
             }
             catch (error) {
@@ -151,12 +151,12 @@ class Authentification {
     }
     createAndSetSession(res, mail, account) {
         return __awaiter(this, void 0, void 0, function* () {
-            const dateNow = Date.now();
+            const dateNow = Date.now() + 86400;
             const token = yield Hash_1.Hash.generateToken(mail, dateNow.toString());
             this.sessionDAO.create(new session_1.Session(0, token, dateNow, account));
             const session = yield this.sessionDAO.getByID(yield this.sessionDAO.getLastInsertedID());
             if (session !== null && session !== undefined) {
-                this.setSessionCookie(res, 'token', session.Token);
+                this.setSessionCookie(res, session.Token);
                 this.handleSuccess(res, 'Connexion réussie', session);
             }
             else {
@@ -245,17 +245,24 @@ class Authentification {
             session,
         });
     }
+    handleSuccessAcc(res, message, account) {
+        res.status(200).json({
+            success: true,
+            message,
+            account,
+        });
+    }
     handleFailure(res, message) {
         res.status(400).json({
             success: false,
             message,
         });
     }
-    setSessionCookie(res, name, value) {
-        const cookieString = cookie.serialize(name, value, {
+    setSessionCookie(res, token) {
+        res.cookie('token', token, {
             path: '/',
+            httpOnly: true,
         });
-        res.setHeader('Set-Cookie', [cookieString]);
     }
     clearSessionCookie(res) {
         res.clearCookie('token');
@@ -273,15 +280,15 @@ class Authentification {
     createAccountInDb(email, pseudo, hash) {
         return __awaiter(this, void 0, void 0, function* () {
             let user = yield this.createUserInDb("", "");
-            this.accountDAO.create(new account_1.Account(0, email, pseudo, hash, user));
+            this.accountDAO.create(new Account_1.Account(0, email, pseudo, hash, user));
             let account = yield this.accountDAO.getByID(yield this.accountDAO.getLastInsertedID());
             return account;
         });
     }
-    createSessionInDb(email, pseudo, hash) {
+    createSessionInDb(email) {
         return __awaiter(this, void 0, void 0, function* () {
-            let account = yield this.createAccountInDb(email, pseudo, hash);
             let dateNow = Date.now();
+            let account = yield this.accountDAO.getAccountByMail(email);
             let token = yield Hash_1.Hash.generateToken(email, dateNow.toString());
             this.sessionDAO.create(new session_1.Session(0, token, dateNow, account));
             let session = yield this.sessionDAO.getByID(yield this.sessionDAO.getLastInsertedID());
