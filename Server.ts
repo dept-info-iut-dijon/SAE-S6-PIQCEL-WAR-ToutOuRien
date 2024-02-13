@@ -6,6 +6,8 @@ import { SocketHandler } from "./App/Controllers/socketHandler.js";
 import { Server as SocketServer } from "socket.io";
 import * as expressHbs from 'express-handlebars';
 
+export const SERVER = Symbol("SERVER");
+
 /**
  * Represents a server that handles HTTP and WebSocket connections.
  * Legacy code from the previous project refactored to TypeScript ESM and OOP.
@@ -43,7 +45,7 @@ export class Server {
   private InitialiseExpress(): void {
     this.expressServer.use(bodyParser.urlencoded({extended: false}));
     this.expressServer.use(bodyParser.json());
-    this.expressServer.use(express.static('Public')); // Public static root.
+    this.expressServer.use(express.static('./Public')); // Public static root.
     this.expressServer.engine('hbs', expressHbs.engine( // Template engine
       {
         extname: "hbs",
@@ -52,7 +54,7 @@ export class Server {
       }
     ));
     this.expressServer.set("view engine", "hbs");
-    this.expressServer.set("views", "views");
+    this.expressServer.set("views", "./Public/Views");
     this.expressServer.use(router);
   }
 
