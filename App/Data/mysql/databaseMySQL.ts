@@ -1,4 +1,4 @@
-import { IDatabase } from "../iDatabase";
+import { IDatabase } from "../IDatabase";
 import mysql, { Connection, MysqlError } from 'mysql';
 
 /**

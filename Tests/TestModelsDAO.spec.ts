@@ -1,12 +1,12 @@
-import { Database } from "../App/Data/databaseChoice";
+import { Database } from "../App/Data/DatabaseChoice";
 
 import { UserDAO } from "../App/Models/DAO/userDAO";
 import { AccountDAO } from "../App/Models/DAO/accountDAO";
 import { SessionDAO } from "../App/Models/DAO/sessionDAO";
 
-import { User } from "../App/Models/user";
-import { Account } from "../App/Models/account";
-import { Session } from "../App/Models/session";
+import { User } from "../App/Models/User";
+import { Account } from "../App/Models/Account";
+import { Session } from "../App/Models/Session";
 
 let database: Database;
 let userDAO: UserDAO;

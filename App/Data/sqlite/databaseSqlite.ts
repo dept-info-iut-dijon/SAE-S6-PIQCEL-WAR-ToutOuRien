@@ -1,5 +1,5 @@
 import * as sqlite from 'sqlite3';
-import { IDatabase } from '../iDatabase';
+import { IDatabase } from '../IDatabase';
 const sqlite3 = sqlite.verbose();
 
 /**

@@ -1,6 +1,6 @@
-import { User } from "../App/Models/user";
-import { Account } from "../App/Models/account";
-import { Session } from "../App/Models/session";
+import { User } from "../App/Models/User";
+import { Account } from "../App/Models/Account";
+import { Session } from "../App/Models/Session";
 
 describe ('Test Models Classes', () => {
 

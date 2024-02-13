@@ -1,5 +1,5 @@
-import { IDatabase } from "../../Data/iDatabase";
-import { Session } from "../session";
+import { IDatabase } from "../../Data/IDatabase";
+import { Session } from "../Session";
 import { AccountDAO } from "./accountDAO";
 
 /**

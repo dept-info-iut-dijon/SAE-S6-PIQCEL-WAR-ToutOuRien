@@ -1,5 +1,5 @@
-import { IDatabase } from "../../Data/iDatabase";
-import { User } from "../user";
+import { IDatabase } from "../../Data/IDatabase";
+import { User } from "../User";
 
 /**
  * The User Data Access Object (DAO) for interacting with the database.

@@ -1,5 +1,5 @@
-import { IDatabase } from "../../Data/iDatabase";
-import { Account } from "../account";
+import { IDatabase } from "../../Data/IDatabase";
+import { Account } from "../Account";
 import { UserDAO } from "./userDAO";
 
 /**
@@ -140,7 +140,7 @@ class AccountDAO {
      * @param mail The email associated with the account.
      * @returns A Promise that resolves to an instance of the Account class if the account is found, or null if not found.
      */
-    public async getAccountByMail(mail: string) : Promise<Account|null> 
+    public async getAccountByMail(mail: string) : Promise<Account|null>
     {
         return this.database.queryOne("SELECT * FROM Account WHERE email = ?", [mail]).then((response) => {
             let result = null;

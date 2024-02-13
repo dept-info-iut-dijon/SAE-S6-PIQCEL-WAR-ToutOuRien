@@ -1,13 +1,13 @@
 import express from 'express';
 import axios from 'axios';
 import { AccountDAO } from '../Models/DAO/accountDAO';
-import { createDatabase } from '../Data/databaseChoice';
-import { Account } from '../Models/account';
-import { User } from '../Models/user';
-import { Session } from '../Models/session';
+import { CreateDatabase } from '../Data/DatabaseChoice';
+import { Account } from '../Models/Account';
+import { User } from '../Models/User';
+import { Session } from '../Models/Session';
 import { UserDAO } from '../Models/DAO/userDAO';
 import { SessionDAO } from '../Models/DAO/sessionDAO';
-import { Hash } from '../lib/Hash';
+import { Hash } from '../Libraries/Hash';
 import * as cookie from 'cookie';
 import nodemailer from 'nodemailer';
 
@@ -30,7 +30,7 @@ class Authentification {
      * Initializes instances of AccountDAO, UserDAO, and SessionDAO.
      */
     constructor() {
-        let database = createDatabase("sqlite");
+        let database = CreateDatabase("sqlite");
         this.accountDAO = new AccountDAO(database);
         this.userDAO = new UserDAO(database);
         this.sessionDAO = new SessionDAO(database);

@@ -1,6 +1,6 @@
-import { createDatabase } from "../Data/databaseChoice";
+import { CreateDatabase } from "../Data/DatabaseChoice";
 import { PixelDAO } from "../Models/DAO/pixelDAO";
-import { Pixel } from "../Models/pixel";
+import { Pixel } from "../Models/Pixel";
 
 /**
  * Represents a class for handling socket-related operations in a pixel grid.
@@ -13,7 +13,7 @@ class SocketHandler{
      * Initializes the pixelDAO property with a new instance of PixelDAO, using the provided database.
      */
     constructor() {
-        let database = createDatabase("sqlite");
+        let database = CreateDatabase("sqlite");
         this.pixelDAO = new PixelDAO(database);
     }
 

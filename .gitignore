@@ -1,6 +1,7 @@
 ### Main ###
 .idea
 App/**/*.js
+/Build
 
 ### Node ###
 # Logs

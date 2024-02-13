@@ -1,4 +1,4 @@
-import { Database } from "../App/Data/databaseChoice";
+import { Database } from "../App/Data/DatabaseChoice";
 
 let database: Database;
 

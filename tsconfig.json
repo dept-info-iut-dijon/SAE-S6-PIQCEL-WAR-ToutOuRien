@@ -1,13 +1,28 @@
 {
   "compilerOptions": {
-    "module": "module",
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "checkJs": false,
     "esModuleInterop": true,
-    "outDir": ".",
-    "rootDir": ".",
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
-    "moduleResolution": "node",
-    "target": "ES6"
+    "outDir": "./Build",
+    "lib": [
+      "esnext",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "commonjs"
   },
   "include": [
     "./**/*.ts"

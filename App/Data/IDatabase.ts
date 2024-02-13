@@ -1,8 +1,7 @@
 /**
  * Represents an interface for defining the contract of a database connection.
  */
-interface IDatabase 
-{
+export interface IDatabase {
 
     /**
      * Connects to the MySQL database.
@@ -49,5 +48,3 @@ interface IDatabase
      */
     IsConnected(): boolean;
 }
-
-export { IDatabase };

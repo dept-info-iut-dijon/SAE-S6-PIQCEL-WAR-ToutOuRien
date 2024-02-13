@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from 'express';
 import { Authentification } from '../Controllers/authentification';
 
-const router: Router = express.Router();
+export const router: Router = express.Router();
 const authController = new Authentification();
 
 // Route for rendering the 'index' view
@@ -56,5 +56,3 @@ router.get('/profil', (req: Request, res: Response) => {
 router.get('/changeProfile', (req: Request, res: Response) => {
   res.render('changeProfile');
 });
-
-export = router;

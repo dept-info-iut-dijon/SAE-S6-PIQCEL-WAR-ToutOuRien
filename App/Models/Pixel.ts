@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from "./User";
 
 /**
  * Represent a pixel on the canvas
