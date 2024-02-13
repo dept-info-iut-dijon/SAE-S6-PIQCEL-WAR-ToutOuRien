@@ -24,7 +24,7 @@ class MySqlDatabase implements IDatabase
     }
 
     IsConnected(): boolean {
-        return !!(this.connection && this.connection.state === 'authenticated');
+        return (this.connection && this.connection.state === 'authenticated');
     }
 
     public async connect(): Promise<void> {

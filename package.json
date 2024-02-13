@@ -36,6 +36,7 @@
     "nodemailer": "^6.9.7",
     "recaptcha-verify": "^0.1.1",
     "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.4",
     "sqlite3": "^5.1.6",
     "typescript-cookie": "^1.0.6"
   },
