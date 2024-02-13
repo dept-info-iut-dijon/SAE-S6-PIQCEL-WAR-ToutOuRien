@@ -56,8 +56,9 @@ router.post('/code', (req, res) => {
 });
 // Route for rendering the 'profile' view
 router.get('/profil', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield profileController.getProfile(req, res);
-    res.render('profil', { profileData: res.locals.profileData });
+    yield authController.whoIsConnected(req, res);
+    let profileData = res.locals.session.account;
+    res.render('profil', { profileData });
 }));
 // Route for rendering the 'changeProfil' view
 router.get('/changeProfile', (req, res) => __awaiter(void 0, void 0, void 0, function* () {

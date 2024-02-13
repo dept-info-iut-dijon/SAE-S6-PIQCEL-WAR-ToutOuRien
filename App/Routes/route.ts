@@ -51,8 +51,9 @@ router.post('/code', (req: Request, res: Response) => {
 
 // Route for rendering the 'profile' view
 router.get('/profil', async (req: Request, res: Response) => {
-  await profileController.getProfile(req,res);
-  res.render('profil', { profileData: res.locals.profileData });
+  await authController.whoIsConnected(req,res);
+  let profileData = res.locals.session.account;
+  res.render('profil', { profileData });
 });
 
 // Route for rendering the 'changeProfil' view

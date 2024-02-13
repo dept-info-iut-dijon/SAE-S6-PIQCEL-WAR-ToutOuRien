@@ -126,6 +126,7 @@ class Authentification {
                 if (session != null) {
                     this.handleSuccessAcc(res, 'Connexion réussie', account);
                 }
+                this.createAndSetSession(res, account);
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -148,9 +149,9 @@ class Authentification {
         }
     }
 
-    private async createAndSetSession(res: express.Response, mail: string, account: Account): Promise<void> {
+    private async createAndSetSession(res: express.Response, account: Account): Promise<void> {
         const dateNow = Date.now() + 86400;
-        const token = await Hash.generateToken(mail, dateNow.toString());
+        const token = await Hash.generateToken(account.Email, dateNow.toString());
         this.sessionDAO.create(new Session(0, token, dateNow, account));
         const session = await this.sessionDAO.getByID(await this.sessionDAO.getLastInsertedID());
 

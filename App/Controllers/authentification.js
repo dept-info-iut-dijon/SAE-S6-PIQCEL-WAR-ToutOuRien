@@ -128,6 +128,7 @@ class Authentification {
                     if (session != null) {
                         this.handleSuccessAcc(res, 'Connexion réussie', account);
                     }
+                    this.createAndSetSession(res, account);
                 }
             }
             catch (error) {
@@ -149,10 +150,10 @@ class Authentification {
             throw new Error('Adresse e-mail ou mot de passe incorrect.');
         }
     }
-    createAndSetSession(res, mail, account) {
+    createAndSetSession(res, account) {
         return __awaiter(this, void 0, void 0, function* () {
             const dateNow = Date.now() + 86400;
-            const token = yield Hash_1.Hash.generateToken(mail, dateNow.toString());
+            const token = yield Hash_1.Hash.generateToken(account.Email, dateNow.toString());
             this.sessionDAO.create(new session_1.Session(0, token, dateNow, account));
             const session = yield this.sessionDAO.getByID(yield this.sessionDAO.getLastInsertedID());
             if (session !== null && session !== undefined) {
