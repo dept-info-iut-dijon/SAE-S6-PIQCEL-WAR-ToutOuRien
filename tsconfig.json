@@ -21,9 +21,14 @@
       "esnext",
       "DOM",
       "DOM.Iterable",
-      "ES6"
+      "ES6",
+      "ES2017",
+      "ESNext"
     ],
-    "module": "commonjs"
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./**/*.ts"

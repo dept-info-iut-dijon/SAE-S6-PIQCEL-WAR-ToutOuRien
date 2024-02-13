@@ -1,7 +1,7 @@
 {
   "name": "piqcel-war",
+  "type": "module",
   "version": "2.0.0",
-  "type": "commonjs",
   "description": "Student project",
   "main": "app.js",
   "scripts": {

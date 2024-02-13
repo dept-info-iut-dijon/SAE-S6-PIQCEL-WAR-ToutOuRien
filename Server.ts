@@ -43,16 +43,16 @@ export class Server {
   private InitialiseExpress(): void {
     this.expressServer.use(bodyParser.urlencoded({extended: false}));
     this.expressServer.use(bodyParser.json());
-    this.expressServer.use(express.static('Public')); // Public static root.
     this.expressServer.engine('hbs', expressHbs.engine( // Template engine
-      {
-        extname: "hbs",
-        defaultLayout: "",
-        layoutsDir: "",
-      }
+        {
+          extname: "hbs",
+          defaultLayout: "",
+          layoutsDir: "",
+        }
     ));
+    this.expressServer.use(express.static('./Build/Public')); // Public static root.
     this.expressServer.set("view engine", "hbs");
-    this.expressServer.set("views", "views");
+    this.expressServer.set("views", './Public/Views');
     this.expressServer.use(router);
   }
 
