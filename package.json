@@ -1,6 +1,6 @@
 {
   "name": "piqcel-war",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "commonjs",
   "description": "Student project",
   "main": "app.js",
@@ -11,12 +11,13 @@
     "start": "node app.js",
     "test": "jest",
     "test:watch": "jest --watchAll"
+    "copy:public": "cpy './Public/**/*' './Build/Public'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR.git"
   },
-  "author": "Ines ECHAROUX & Romain BARABANT & Tom TRICHET & Thomas AUTHIER & Mattéo BADET",
+  "author": "[1.0 : Ines ECHAROUX & Romain BARABANT & Tom TRICHET & Thomas AUTHIER & Mattéo BADET], [2.0 : Louis DUBOZ & Pol DENIS & Damien CHABRET]",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR/issues"
