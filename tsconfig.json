@@ -20,7 +20,8 @@
     "lib": [
       "esnext",
       "DOM",
-      "DOM.Iterable"
+      "DOM.Iterable",
+      "ES6"
     ],
     "module": "commonjs"
   },
