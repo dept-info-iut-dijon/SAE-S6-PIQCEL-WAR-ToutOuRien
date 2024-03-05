@@ -1,11 +1,11 @@
-import { io, Socket } from "socket.io-client";
+import { io, Socket } from "./Libraries/socket.io.esm.min.js";
 
 /**
  * Manages socket communication for pixel changes.
  * @class
  */
 class SocketManager {
-    private socket: Socket;
+    private readonly socket: Socket;
 
     public get Socket():Socket {
         return this.socket;
@@ -33,16 +33,7 @@ class SocketManager {
     }
 }
 
-/**
- * The socket object for communication.
- * @type {Socket}
- */
 const socket: Socket = io();
-
-/**
- * The SocketManager instance for managing socket communication.
- * @type {SocketManager}
- */
 const socketManager: SocketManager = new SocketManager(socket);
 
 // Export the socketManager object

@@ -1,6 +1,6 @@
-import { Grid } from "./Grid";
-import { ColorSelector } from "./ColorSelector";
-import { socketManager } from "./SocketManager";
+import { Grid } from "./Grid.js";
+import { ColorSelector } from "./ColorSelector.js";
+import { socketManager } from "./SocketManager.js";
 
 const canvas = document.getElementById("canvas") as HTMLCanvasElement | null;
 const grid = new Grid(100, 100, "canvas");
