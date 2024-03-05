@@ -40,11 +40,12 @@ class SessionDAO {
      */
     public async getByID(id: number): Promise<Session | null> {
         let result: any = await this.database.queryOne("SELECT * FROM Session WHERE Id = ?", [id]);
-        let session: Session | null;
+        let session: Session | null = null;
 
         if (result) {
             const accountDAO = new AccountDAO(this.database);
-            session = await accountDAO.getByID(session.account_id!);
+            let account = await accountDAO.getByID(result.account_id!);
+            session = new Session(id, result.token, result.creationDate, account);
         }
 
         return session;

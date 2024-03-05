@@ -44,9 +44,10 @@ describe('Test DAO of Repositories Classes : Session', () => {
     })
 
     test('Insert Table Account', async () => {
-        let sess = new Session(sessionLastInsertedID+1, "K7pRw9q2Xs", 10022020, acc);
+        let newId: number = sessionLastInsertedID + 1;
+        let sess = new Session(newId, "K7pRw9q2Xs", 10022020, acc);
         sessionDAO.create(sess);
-        let sessReq = await sessionDAO.getByID(sessionLastInsertedID);
+        let sessReq = await sessionDAO.getByID(newId);
         expect(sessReq).toEqual(sess);
     });
 
