@@ -56,9 +56,22 @@ router.post('/code', (req, res) => {
 });
 // Route for rendering the 'profile' view
 router.get('/profil', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    yield authController.whoIsConnected(req, res);
-    let profileData = res.locals.session.account;
-    res.render('profil', { profileData });
+    // Appel à authController.whoIsConnected()
+    authController.whoIsConnected(req, res);
+    // Gestion de la réponse après l'appel à authController.whoIsConnected()
+    res.on('finish', () => {
+        // Vérification du statut de la réponse
+        if (res.statusCode === 200) {
+            // Récupérer les données de la réponse
+            let profileData = res.locals.data.session; // Assurez-vous que les données sont correctement formatées selon votre logique
+            // Rendre le modèle 'profil' avec les données récupérées
+            res.render('profil', { profileData });
+        }
+        else {
+            // Gérer les cas où l'utilisateur n'est pas connecté ou d'autres erreurs
+            // Peut-être rediriger vers une page de connexion, afficher un message d'erreur, etc.
+        }
+    });
 }));
 // Route for rendering the 'changeProfil' view
 router.get('/changeProfile', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
