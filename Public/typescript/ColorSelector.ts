@@ -15,5 +15,4 @@ export class ColorSelector {
     public get Color(): string {
         return this.color;
     }
-
 }
