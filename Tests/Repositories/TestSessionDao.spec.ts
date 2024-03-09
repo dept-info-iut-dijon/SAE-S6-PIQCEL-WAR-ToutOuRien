@@ -33,9 +33,9 @@ describe('Test DAO of Repositories Classes : Session', () => {
         accountLastInsertedID = await accountDAO.getLastInsertedID();
 
         user = new User(userLastInsertedID+1, 'BADET', 'Mattéo');
-        userDAO.create(user);
+        await userDAO.create(user);
         acc = new Account(accountLastInsertedID+1, 'm.badet@ymag.fr', "Matt", "#######", user);
-        accountDAO.create(acc);
+        await accountDAO.create(acc);
         sessionLastInsertedID = await sessionDAO.getLastInsertedID();
     });
 
@@ -46,7 +46,7 @@ describe('Test DAO of Repositories Classes : Session', () => {
     test('Insert Table Account', async () => {
         let newId: number = sessionLastInsertedID + 1;
         let sess = new Session(newId, "K7pRw9q2Xs", 10022020, acc);
-        sessionDAO.create(sess);
+        await sessionDAO.create(sess);
         let sessReq = await sessionDAO.getByID(newId);
         expect(sessReq).toEqual(sess);
     });
@@ -54,16 +54,16 @@ describe('Test DAO of Repositories Classes : Session', () => {
     test('Edit Table Account', async () => {
         let sess = new Session(sessionLastInsertedID, "K7pRw9q2Xs", 10022020, acc);
         sess.Token = 'XX_K7pRw9q2Xs_XX';
-        sessionDAO.edit(sess);
+        await sessionDAO.edit(sess);
         let sessReq = await sessionDAO.getByID(sessionLastInsertedID);
         expect(sessReq).toEqual(sess);
     });
 
     test('Delete Table Account', async () => {
         let sess = new Session(sessionLastInsertedID, "XX_K7pRw9q2Xs_XX", 10022020, acc);
-        sessionDAO.delete(sess);
-        accountDAO.delete(acc);
-        userDAO.delete(user);
+        await sessionDAO.delete(sess);
+        await accountDAO.delete(acc);
+        await userDAO.delete(user);
         let sessReq = await sessionDAO.getByID(sessionLastInsertedID);
         expect(sessReq).toBeNull();
     });

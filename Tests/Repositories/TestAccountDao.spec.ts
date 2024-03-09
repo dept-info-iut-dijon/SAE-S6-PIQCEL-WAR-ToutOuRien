@@ -23,7 +23,7 @@ describe('Test DAO of Repositories Classes : Account', () => {
         userDao = new UserDAO(database);
         userLastInsertedId = await userDao.getLastInsertedID()
         user = new User(userLastInsertedId, 'BADET', 'Mattéo');
-        userDao.create(user);
+        await userDao.create(user);
 
         accountLastInsertedID = await dao.getLastInsertedID()
     });
@@ -34,7 +34,7 @@ describe('Test DAO of Repositories Classes : Account', () => {
 
     test('Insert Table Account', async () => {
         let acc = new Account(accountLastInsertedID + 1, 'm.badet@ymag.fr', "Matt", "#######", user);
-        dao.create(acc);
+        await dao.create(acc);
         let accReq = await dao.getByID(accountLastInsertedID + 1);
         expect(accReq).toEqual(acc);
     });
@@ -42,14 +42,14 @@ describe('Test DAO of Repositories Classes : Account', () => {
     test('Edit Table Account', async () => {
         let acc = new Account(accountLastInsertedID, 'm.badet@ymag.fr', "Matt", "#######", user);
         acc.Pseudo = 'Matt21240';
-        dao.edit(acc);
+        await dao.edit(acc);
         let accReq = await dao.getByID(accountLastInsertedID);
         expect(accReq).toEqual(acc);
     });
 
     test('Delete Table Account', async () => {
         let acc = new Account(accountLastInsertedID, 'm.badet@ymag.fr', "Matt21240", "#######", user);
-        dao.delete(acc);
+        await dao.delete(acc);
         let accReq = await dao.getByID(accountLastInsertedID);
         expect(accReq).toBeNull();
     });

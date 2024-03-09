@@ -23,7 +23,7 @@ describe('Test DAO of Repositories Classes : User', () => {
     test('Insert Table User', async () => {
         let newId: number = await userDAO.getLastInsertedID() + 1;
         let user = new User(newId, 'BADET', 'Mattéo');
-        userDAO.create(user);
+        await userDAO.create(user);
         let lastUser: User | null = await userDAO.getByID(newId);
         expect(lastUser).not.toEqual(null);
         expect(lastUser).toEqual(user);
@@ -32,14 +32,14 @@ describe('Test DAO of Repositories Classes : User', () => {
     test('Edit Table User', async () => {
         let user = new User(userLastInsertedID, 'BADET', 'Mattéo');
         user.LastName = 'BADETTO';
-        userDAO.edit(user);
+        await userDAO.edit(user);
         let userReq = await userDAO.getByID(userLastInsertedID);
         expect(userReq).toEqual(user);
     });
 
     test('Delete Table User', async () => {
         let user = new User(userLastInsertedID, 'BADETTO', 'Mattéo');
-        userDAO.delete(user);
+        await userDAO.delete(user);
         let userReq = await userDAO.getByID(userLastInsertedID);
         expect(userReq).toBeNull();
     });
