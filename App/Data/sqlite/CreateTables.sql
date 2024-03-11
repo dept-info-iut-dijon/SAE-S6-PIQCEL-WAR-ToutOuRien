@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS "account" (
   "hash" TEXT NOT NULL,
   "salt" INTEGER NOT NULL,
   "user_id" INTEGER NOT NULL DEFAULT 0,
+  "account_is_valid" BOOLEAN NOT NULL,
   FOREIGN KEY ("user_id") REFERENCES "user" ("id")
 );
 
