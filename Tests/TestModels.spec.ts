@@ -2,7 +2,7 @@ import { User } from "../App/Models/User";
 import { Account } from "../App/Models/Account";
 import { Session } from "../App/Models/Session";
 
-describe ('Test Models Classes', () => {
+describe ('Test Repositories Classes', () => {
 
     let user: User;
     let acc: Account;
@@ -10,7 +10,7 @@ describe ('Test Models Classes', () => {
 
     beforeEach(() => {
         user = new User(1, "BADET", "Mattéo");
-        acc = new Account(1, "matteo.badet@iut-dijon.u-bourgogne.fr", "Matt", "##########", 321, user);
+        acc = new Account(1, "matteo.badet@iut-dijon.u-bourgogne.fr", "Matt", "##########", user);
         session = new Session(1, "K7pRw9q2Xs", 10022020, acc);
     });
 

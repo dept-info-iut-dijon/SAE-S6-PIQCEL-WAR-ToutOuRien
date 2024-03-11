@@ -1,10 +1,11 @@
-import { Database } from "../App/Data/DatabaseChoice";
+import {IDatabase} from "../App/Data/IDatabase";
+import {CreateDatabase} from "../App/Data/DatabaseChoice";
 
-let database: Database;
+let database: IDatabase;
 
 beforeAll(async () => {
-    database = new Database();
-    database.connect();
+    database = CreateDatabase("sqlite");
+    await database.connect();
 });
 
 afterAll(() => {
