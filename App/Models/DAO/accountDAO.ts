@@ -42,7 +42,7 @@ class AccountDAO {
             if (response) {
                 const userDAO = new UserDAO(this.database);
                 result = userDAO.getByID(response.user_id).then((user) => {
-                    return new Account(response.id, response.email, response.pseudo, response.hash, user);
+                    return new Account(response.id, response.email, response.pseudo, response.hash, user, response.account_is_valid);
                 });
             }
             return result;

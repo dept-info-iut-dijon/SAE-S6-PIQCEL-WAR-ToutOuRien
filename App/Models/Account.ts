@@ -26,13 +26,13 @@ class Account {
      * @param {number} salt - Account's password salt.
      * @param {User | null} user - Reference to the associated User object or null if no user is associated.
      */
-    constructor(id : number, email: string, pseudo: string, hash: string, user: User | null) {
+    constructor(id : number, email: string, pseudo: string, hash: string, user: User | null, valid : boolean = false) {
         this.id = id;
         this.email = email;
         this.pseudo = pseudo;
         this.hash = hash;
         this.user = user;
-        this.accountIsValid = false;
+        this.accountIsValid = valid;
     }
 
     /**
