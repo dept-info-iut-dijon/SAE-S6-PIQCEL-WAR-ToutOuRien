@@ -2,7 +2,7 @@ import express, { Request, Response, Router } from 'express';
 import { Authentification } from '../Controllers/authentification';
 import { Profile } from '../Controllers/profile';
 
-const router: Router = express.Router();
+export const router: Router = express.Router();
 const authController = new Authentification();
 const profileController = new Profile();
 
@@ -76,5 +76,3 @@ router.get('/changeProfile', async (req: Request, res: Response) => {
   await profileController.getProfile(req,res);
   res.render('changeProfile', { profileData: res.locals.profileData });
 });
-
-export = router;

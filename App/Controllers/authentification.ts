@@ -1,13 +1,13 @@
 import express from 'express';
 import axios from 'axios';
 import { AccountDAO } from '../Models/DAO/accountDAO';
-import { createDatabase } from '../Data/databaseChoice';
+import { CreateDatabase } from '../Data/DatabaseChoice';
 import { Account } from '../Models/Account';
-import { User } from '../Models/user';
-import { Session } from '../Models/session';
+import { User } from '../Models/User';
+import { Session } from '../Models/Session';
 import { UserDAO } from '../Models/DAO/userDAO';
 import { SessionDAO } from '../Models/DAO/sessionDAO';
-import { Hash } from '../lib/Hash';
+import { Hash } from '../Libraries/Hash';
 import * as cookie from 'cookie';
 import nodemailer from 'nodemailer';
 
@@ -30,7 +30,7 @@ class Authentification {
      * Initializes instances of AccountDAO, UserDAO, and SessionDAO.
      */
     constructor() {
-        let database = createDatabase("sqlite");
+        let database = CreateDatabase("sqlite");
         this.accountDAO = new AccountDAO(database);
         this.userDAO = new UserDAO(database);
         this.sessionDAO = new SessionDAO(database);
@@ -126,7 +126,6 @@ class Authentification {
                 if (session != null) {
                     this.handleSuccessAcc(res, 'Connexion réussie', account);
                 }
-                this.createAndSetSession(res, account);
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -149,9 +148,9 @@ class Authentification {
         }
     }
 
-    private async createAndSetSession(res: express.Response, account: Account): Promise<void> {
+    private async createAndSetSession(res: express.Response, mail: string, account: Account): Promise<void> {
         const dateNow = Date.now() + 86400;
-        const token = await Hash.generateToken(account.Email, dateNow.toString());
+        const token = await Hash.generateToken(mail, dateNow.toString());
         this.sessionDAO.create(new Session(0, token, dateNow, account));
         const session = await this.sessionDAO.getByID(await this.sessionDAO.getLastInsertedID());
 

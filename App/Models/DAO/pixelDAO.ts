@@ -1,5 +1,5 @@
-import { IDatabase } from "../../Data/iDatabase";
-import { Pixel } from "../pixel";
+import { IDatabase } from "../../Data/IDatabase";
+import { Pixel } from "../Pixel";
 import { UserDAO } from "./userDAO";
 
 /**

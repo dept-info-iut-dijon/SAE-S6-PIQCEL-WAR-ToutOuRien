@@ -1,5 +1,5 @@
 import express from 'express';
-import { createDatabase } from '../Data/databaseChoice'
+import { CreateDatabase } from '../Data/DatabaseChoice'
 import { AccountDAO } from "../Models/DAO/accountDAO";
 
 /**
@@ -17,7 +17,7 @@ class Profile {
      * Initializes an instance of the `Profile` class with a database connection.
      */
     constructor() { 
-        let database = createDatabase("sqlite");
+        let database = CreateDatabase("sqlite");
         this.accountDAO = new AccountDAO(database);
     }
 

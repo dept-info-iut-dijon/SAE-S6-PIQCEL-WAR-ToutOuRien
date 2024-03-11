@@ -1,4 +1,4 @@
-import { IDatabase } from "../iDatabase";
+import { IDatabase } from "../IDatabase";
 import mysql, { Connection, MysqlError } from 'mysql';
 
 /**
@@ -24,7 +24,7 @@ class MySqlDatabase implements IDatabase
     }
 
     IsConnected(): boolean {
-        return !!(this.connection && this.connection.state === 'authenticated');
+        return (this.connection && this.connection.state === 'authenticated');
     }
 
     public async connect(): Promise<void> {
