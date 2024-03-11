@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS account (
   hash VARCHAR(50) NOT NULL,
   salt INT NOT NULL,
   user_id INT NOT NULL DEFAULT 0,
+  account_is_valid BOOLEAN NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user (id)
 );
 

@@ -15,6 +15,7 @@ class Account {
     private pseudo: string;
     private hash: string;
     private user: User | null;
+    private accountValidate : boolean;
 
     /**
      * Constructor: Initializes a new instance of the Account class.
@@ -31,6 +32,7 @@ class Account {
         this.pseudo = pseudo;
         this.hash = hash;
         this.user = user;
+        this.accountValidate = false;
     }
 
     /**
@@ -111,6 +113,20 @@ class Account {
      */
     set User(value: User | null) {
         this.user = value;
+    }
+
+    /**
+     * Check if an account is valid
+     */
+    get AccountValidate() : boolean{
+        return this.accountValidate;
+    }
+
+    /**
+     * Set if an account is valid
+     */
+    set AccountValidate(value : boolean){
+        this.accountValidate = value;
     }
 }
 
