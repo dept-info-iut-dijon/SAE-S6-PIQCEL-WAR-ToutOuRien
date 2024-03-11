@@ -89,7 +89,7 @@ class Authentification {
             } else {
                 this.validateMailFormat(mail);
 
-                await this.validateAccount(mail, psw, psw2, pseudo);
+                await this.validateAccount(mail, psw, psw2);
                 const hashedPassword = await Hash.hashPassword(psw);
                 const account = await this.createAccountInDb(mail, pseudo, hashedPassword);
 
@@ -120,12 +120,13 @@ class Authentification {
         try {
             this.validateLoginInput(mail, psw);
             const account = await this.accountDAO.getAccountByMail(mail);
-            if (account != null) {
+            if (account != null && account.AccountIsValid) { // can't login if account is not valid
                 let session = await this.createSessionInDb(mail);
                 
                 if (session != null) {
                     this.handleSuccessAcc(res, 'Connexion réussie', account);
                 }
+                this.createAndSetSession(res, account);
             }
         } catch (error) {
             if (error instanceof Error) {
@@ -148,9 +149,9 @@ class Authentification {
         }
     }
 
-    private async createAndSetSession(res: express.Response, mail: string, account: Account): Promise<void> {
+    private async createAndSetSession(res: express.Response, account: Account): Promise<void> {
         const dateNow = Date.now() + 86400;
-        const token = await Hash.generateToken(mail, dateNow.toString());
+        const token = await Hash.generateToken(account.Email, dateNow.toString());
         this.sessionDAO.create(new Session(0, token, dateNow, account));
         const session = await this.sessionDAO.getByID(await this.sessionDAO.getLastInsertedID());
 
@@ -193,7 +194,7 @@ class Authentification {
         }
     }
 
-    private async validateAccount(mail: string, psw: string, psw2: string, pseudo: string): Promise<void> {
+    private async validateAccount(mail: string, psw: string, psw2: string): Promise<void> {
         let conditionMail = await this.accountDAO.checkExistingMails(mail);
 
         if (!conditionMail) {
