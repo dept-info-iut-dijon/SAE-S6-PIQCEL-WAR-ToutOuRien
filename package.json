@@ -6,7 +6,9 @@
   "description": "Student project",
   "main": "app.ts",
   "scripts": {
-    "dev": "bun run ./app.ts"
+    "build-client": "cd ./Public && bun run build",
+    "dev-api": "bun run ./app.ts",
+    "dev" : "npm-run-all build-client dev-api"
   },
   "repository": {
     "type": "git",
