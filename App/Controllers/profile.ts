@@ -29,23 +29,21 @@ class Profile {
      */
     public async getProfile(req: express.Request, res: express.Response) {
         try {
-            const profileInfo = await this.accountDAO.getByID(2);
+            const profileInfo = await this.accountDAO.getByID(req.body.ID);
     
             if (profileInfo) {
-                // Stockez les données du profil dans un objet
                 const profileData = {
                     Pseudo: profileInfo.Pseudo,
                     Email: profileInfo.Email
                 };
-                // Envoyez l'objet de données à la vue
+
                 res.locals.profileData = profileData;
             } else {
-                // Gérez le cas où le profil n'est pas trouvé
-                res.locals.profileData = null; // Vous pouvez définir cela comme null ou un objet vide, selon votre logique
+                
+                res.locals.profileData = null;
                 res.status(404).json({ error: 'Profile not found' });
             }
         } catch (error) {
-            // Gérez les erreurs
             res.status(500).send('Erreur interne du serveur');
         }
     }

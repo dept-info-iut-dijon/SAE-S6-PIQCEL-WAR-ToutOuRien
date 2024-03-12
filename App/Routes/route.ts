@@ -56,7 +56,7 @@ router.post('/code', (req: Request, res: Response) => {
 // Route for rendering the 'profile' view
 router.get('/profil', async (req: Request, res: Response) => {
   await authController.whoIsConnected(req, res);
-  let profileData = res.locals.data.sessionData; 
+  let profileData = res.locals.sessionData; 
   res.render('profil', { profileData });
 });
 

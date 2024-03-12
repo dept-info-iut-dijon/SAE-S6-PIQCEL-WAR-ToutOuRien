@@ -44,20 +44,20 @@ class Authentification {
     public async whoIsConnected(req: express.Request, res: express.Response): Promise<void> {   
         try {
             let token = req.cookies['token'];
+            console.log(token);
             let session = await this.sessionDAO.getSessionByToken(token);
     
             if (session) {
-                // Stockez les informations de la session dans un objet
                 const sessionData = {
-                    userAccount : (session as Session).Account,
+                    userAccount : session.Account,
                 };
-                // Envoyez l'objet de données à la vue
                 res.locals.sessionData = sessionData;
     
                 res.status(200).json({
                     success: true,
                     message: 'Utilisateur connecté',
-                    session: sessionData, // Vous pouvez renvoyer les données de session si nécessaire
+                    session: sessionData,
+                    ID: session.Id
                 });
             } else {
                 res.status(400).json({
