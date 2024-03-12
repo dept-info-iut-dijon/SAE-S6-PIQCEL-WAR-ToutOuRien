@@ -8,7 +8,6 @@ import { Session } from '../Models/Session';
 import { UserDAO } from '../Models/DAO/userDAO';
 import { SessionDAO } from '../Models/DAO/sessionDAO';
 import { Hash } from '../Libraries/Hash';
-import * as cookie from 'cookie';
 import nodemailer from 'nodemailer';
 
 /**
@@ -116,7 +115,7 @@ class Authentification {
      */
     public async postlogin(req: express.Request, res: express.Response) {
         const { mail, psw } = req.body;
-
+        console.log("postlogin");
         try {
             this.validateLoginInput(mail, psw);
             const account = await this.accountDAO.getAccountByMail(mail);
@@ -124,6 +123,7 @@ class Authentification {
                 let session = await this.createSessionInDb(mail);
                 
                 if (session != null) {
+                    this.createAndSetSession(res,mail,account);
                     this.handleSuccessAcc(res, 'Connexion réussie', account);
                 }
             }
