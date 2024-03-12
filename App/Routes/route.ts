@@ -60,19 +60,11 @@ router.get('/profil', async (req: Request, res: Response) => {
  // Appel à authController.whoIsConnected()
   authController.whoIsConnected(req, res);
 
-    // Gestion de la réponse après l'appel à authController.whoIsConnected()
   res.on('finish', () => {
-    // Vérification du statut de la réponse
     if (res.statusCode === 200) {
-        // Récupérer les données de la réponse
-        let profileData = res.locals.data.session; // Assurez-vous que les données sont correctement formatées selon votre logique
-
-        // Rendre le modèle 'profil' avec les données récupérées
+        let profileData = res.locals.data.session; 
         res.render('profil', { profileData });
-    } else {
-        // Gérer les cas où l'utilisateur n'est pas connecté ou d'autres erreurs
-        // Peut-être rediriger vers une page de connexion, afficher un message d'erreur, etc.
-    }
+    } 
 });
 });
 
