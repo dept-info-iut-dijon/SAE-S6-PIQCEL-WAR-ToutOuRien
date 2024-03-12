@@ -39,7 +39,6 @@ class Profile {
 
                 res.locals.profileData = profileData;
             } else {
-                
                 res.locals.profileData = null;
                 res.status(404).json({ error: 'Profile not found' });
             }
@@ -47,7 +46,6 @@ class Profile {
             res.status(500).send('Erreur interne du serveur');
         }
     }
-    
 }
 
 export { Profile };

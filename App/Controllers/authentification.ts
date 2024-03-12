@@ -163,11 +163,10 @@ class Authentification {
         console.log("create session");
         const dateNow = Date.now() + 86400;
         const token = await Hash.generateToken(mail, dateNow.toString());
+        console.log("test token", token)
         this.sessionDAO.create(new Session(0, token, dateNow, account));
         const session = await this.sessionDAO.getByID(await this.sessionDAO.getLastInsertedID());
-
         if (session !== null && session !== undefined) {
-            console.log("cookie set ;)")
             this.setSessionCookie(res, session.Token);
             this.handleSuccess(res, 'Connexion réussie', session);
         } else {
@@ -284,7 +283,6 @@ class Authentification {
     }
 
     private setSessionCookie(res: express.Response, token: string): void {
-        console.log("token set");
         res.cookie('token', token, {
             path: '/',
             httpOnly: true,
