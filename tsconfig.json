@@ -16,14 +16,10 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "outDir": "./Build",
-    "lib": [
-      "esnext",
-      "DOM",
-      "DOM.Iterable",
-      "ES6"
-    ],
-    "module": "commonjs"
+    "baseUrl": "./",
+
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./**/*.ts"
