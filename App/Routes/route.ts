@@ -9,7 +9,6 @@ let isConnected = false;
 
 // Route for rendering the 'index' view
 router.get('/', (req: Request, res: Response) => {
-  console.log(isConnected);
   res.render('index', {'isConnected': isConnected});
 });
 
@@ -56,16 +55,9 @@ router.post('/code', (req: Request, res: Response) => {
 
 // Route for rendering the 'profile' view
 router.get('/profil', async (req: Request, res: Response) => {
-  
- // Appel à authController.whoIsConnected()
-  authController.whoIsConnected(req, res);
-
-  res.on('finish', () => {
-    if (res.statusCode === 200) {
-        let profileData = res.locals.data.session; 
-        res.render('profil', { profileData });
-    } 
-});
+  await authController.whoIsConnected(req, res);
+  let profileData = res.locals.data.sessionData; 
+  res.render('profil', { profileData });
 });
 
 // Route for rendering the 'changeProfil' view

@@ -1,12 +1,9 @@
 import express from 'express';
-import cookieParser from 'cookie-parser';
 import { CreateDatabase } from "./App/Data/DatabaseChoice";
 import { Server } from "./Server";
 import { IDatabase } from "./App/Data/IDatabase";
 
 // Configure le middleware cookie-parser
-const app = express();
-app.use(cookieParser());
 
 const database: IDatabase = CreateDatabase("sqlite");
 const server: Server = new Server();

@@ -5,6 +5,8 @@ import { router } from "./App/Routes/route";
 import { SocketHandler } from "./App/Controllers/socketHandler";
 import { Server as SocketServer } from "socket.io";
 import * as expressHbs from 'express-handlebars';
+import cookieParser from 'cookie-parser';
+
 
 /**
  * Represents a server that handles HTTP and WebSocket connections.
@@ -44,6 +46,7 @@ export class Server {
   private InitialiseExpress(): void {
     this.expressServer.use(bodyParser.urlencoded({extended: false}));
     this.expressServer.use(bodyParser.json());
+    this.expressServer.use(cookieParser());
     this.expressServer.engine('hbs', expressHbs.engine( // Template engine
         {
           extname: "hbs",

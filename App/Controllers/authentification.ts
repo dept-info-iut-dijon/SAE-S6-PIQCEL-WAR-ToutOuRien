@@ -41,23 +41,36 @@ class Authentification {
      * @param req Express Request
      * @param res Express Response
      */
-    public whoIsConnected(req: express.Request, res: express.Response): void {
-        let token = req.cookies['token'];
-        let session = this.sessionDAO.getSessionByToken(token);
-
-        if (session != null) {
-            res.status(200).json({
-                success: true,
-                message: 'Utilisateur connecté',
-                session,
-            });
-        } else {
-            res.status(400).json({
-                success: false,
-                message: 'Utilisateur non connecté',
-            });
+    public async whoIsConnected(req: express.Request, res: express.Response): Promise<void> {   
+        try {
+            let token = req.cookies['token'];
+            let session = await this.sessionDAO.getSessionByToken(token);
+    
+            if (session) {
+                // Stockez les informations de la session dans un objet
+                const sessionData = {
+                    userAccount : (session as Session).Account,
+                };
+                // Envoyez l'objet de données à la vue
+                res.locals.sessionData = sessionData;
+    
+                res.status(200).json({
+                    success: true,
+                    message: 'Utilisateur connecté',
+                    session: sessionData, // Vous pouvez renvoyer les données de session si nécessaire
+                });
+            } else {
+                res.status(400).json({
+                    success: false,
+                    message: 'Utilisateur non connecté',
+                });
+            }
+        } catch (error) {
+            // Gérez les erreurs
+            res.status(500).send('Erreur interne du serveur');
         }
     }
+    
 
     /**
      * Allows a user to disconnect from the website.
