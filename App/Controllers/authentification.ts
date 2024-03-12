@@ -115,13 +115,11 @@ class Authentification {
      */
     public async postlogin(req: express.Request, res: express.Response) {
         const { mail, psw } = req.body;
-        console.log("postlogin");
         try {
             this.validateLoginInput(mail, psw);
             const account = await this.accountDAO.getAccountByMail(mail);
             if (account != null) {
                 let session = await this.createSessionInDb(mail);
-                
                 if (session != null) {
                     this.createAndSetSession(res,mail,account);
                     this.handleSuccessAcc(res, 'Connexion réussie', account);
@@ -149,12 +147,14 @@ class Authentification {
     }
 
     private async createAndSetSession(res: express.Response, mail: string, account: Account): Promise<void> {
+        console.log("create session");
         const dateNow = Date.now() + 86400;
         const token = await Hash.generateToken(mail, dateNow.toString());
         this.sessionDAO.create(new Session(0, token, dateNow, account));
         const session = await this.sessionDAO.getByID(await this.sessionDAO.getLastInsertedID());
 
         if (session !== null && session !== undefined) {
+            console.log("cookie set ;)")
             this.setSessionCookie(res, session.Token);
             this.handleSuccess(res, 'Connexion réussie', session);
         } else {
@@ -271,6 +271,7 @@ class Authentification {
     }
 
     private setSessionCookie(res: express.Response, token: string): void {
+        console.log("token set");
         res.cookie('token', token, {
             path: '/',
             httpOnly: true,

@@ -9,7 +9,6 @@ form.addEventListener("submit", async (e) => {
         "psw": (document.getElementById("psw") as HTMLInputElement).value,
         "psw2": (document.getElementById("psw2") as HTMLInputElement).value,
         "pseudo": (document.getElementById("pseudo") as HTMLInputElement).value,
-        //"g-recaptcha-response": grecaptcha.getResponse()
 });
     const response = await fetch('/signup', {
         method: 'POST', headers:
@@ -19,7 +18,7 @@ form.addEventListener("submit", async (e) => {
             }, body: ata
     });
     const data = await response.json();
-
+    console.log(data);
     const message = document.getElementById("errorMessageContainer");
     if (message) {
         message.textContent = data["message"];

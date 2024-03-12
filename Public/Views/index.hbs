@@ -38,7 +38,9 @@
 </body>
 <script type="module" src="/javascript/Main.js"></script>
 
-<a href="/signup">S'inscrire</a><br/>
-<a href="/login">Se connecter</a>
+{{#unless isConnected}}
+    <a href="/signup">S'inscrire</a><br/>
+    <a href="/login">Se connecter</a>
+{{/unless}}
 
 </html>

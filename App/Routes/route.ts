@@ -5,10 +5,12 @@ import { Profile } from '../Controllers/profile';
 export const router: Router = express.Router();
 const authController = new Authentification();
 const profileController = new Profile();
+let isConnected = false;
 
 // Route for rendering the 'index' view
 router.get('/', (req: Request, res: Response) => {
-  res.render('index');
+  console.log(isConnected);
+  res.render('index', {'isConnected': isConnected});
 });
 
 // Route for rendering the 'login' view
@@ -19,6 +21,9 @@ router.get('/login', (req: Request, res: Response) => {
 // Route for handling POST request for user login
 router.post('/login', (req: Request, res: Response) => {
   authController.postlogin(req, res);
+  if(res.statusCode == 200){
+    isConnected = true;
+  }
 });
 
 // Route for rendering the 'signup' view
