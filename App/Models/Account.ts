@@ -15,6 +15,7 @@ class Account {
     private pseudo: string;
     private hash: string;
     private user: User | null;
+    private accountIsValid : boolean;
 
     /**
      * Constructor: Initializes a new instance of the Account class.
@@ -25,12 +26,13 @@ class Account {
      * @param {number} salt - Account's password salt.
      * @param {User | null} user - Reference to the associated User object or null if no user is associated.
      */
-    constructor(id : number, email: string, pseudo: string, hash: string, user: User | null) {
+    constructor(id : number, email: string, pseudo: string, hash: string, user: User | null, valid : boolean = false) {
         this.id = id;
         this.email = email;
         this.pseudo = pseudo;
         this.hash = hash;
         this.user = user;
+        this.accountIsValid = valid;
     }
 
     /**
@@ -111,6 +113,20 @@ class Account {
      */
     set User(value: User | null) {
         this.user = value;
+    }
+
+    /**
+     * Check if an account is valid
+     */
+    get AccountIsValid() : boolean{
+        return this.accountIsValid;
+    }
+
+    /**
+     * Set if an account is valid
+     */
+    set AccountIsValid(value : boolean){
+        this.accountIsValid = value;
     }
 }
 
