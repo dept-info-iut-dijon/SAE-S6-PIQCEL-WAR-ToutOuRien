@@ -4,8 +4,8 @@ body {
     background-color: #393939;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: 100vh;
+    justify-content: space-between;
 }
 #header {
     background-color: white;
@@ -13,6 +13,16 @@ body {
     padding: 10px;
     display: flex;
     justify-content: space-between;
+
+}
+#signup-link,#login-link{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+}
+#login-link{
+    margin-right: 10px;
 }
 #logo {
     display: inline-block;
@@ -20,12 +30,17 @@ body {
 }
 #title {
     display: inline-block;
-    margin-left: -120px;
+    margin-left: 10px;
 }
 #profile {
     display: inline-block;
     float: right;
 }
+#main-container {
+    position: relative;
+    display: flex;
+}
+
 #canvas-container {
     flex: 1;
     display: flex;
@@ -39,6 +54,7 @@ body {
     background-color: white;
     text-align: center;
     padding: 10px;
+    bottom: 0;
 }
 .color-button {
     width: 40px;
@@ -87,4 +103,49 @@ button:hover {
 }
 .button:hover {
     cursor:pointer;
+}
+
+#history-container {
+    position: absolute;
+    top: 0;
+    max-width: 400px;
+    width: auto;
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+}
+
+#history-container h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color:#2C2B5A;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#history-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#history-list li {
+    margin-bottom: 5px;
+    width: fit-content;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+#history-list li:hover{
+    cursor: grab;
+}
+
+.pixel {
+    display: inline-block;
+    border: 1px solid #000;
+    margin-right: 5px;
 }

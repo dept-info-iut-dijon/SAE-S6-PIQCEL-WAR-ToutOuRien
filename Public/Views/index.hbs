@@ -14,14 +14,24 @@
         <div id="title">
             <h1>P<span>IQcel</span> W<span>ar</span></h1>
         </div>
+        <a id="signup-link" href="/signup">S'inscrire</a><br/>
+        <a id="login-link"  href="/login">Se connecter</a>
         <div id="profile">
             <p id="nomUtilisateur"><a href="/profil"></a></p>
         </div>
     </div>
-    <div id="canvas-container">
-        <canvas id="canvas">
-            <!-- Votre canvas ici -->
-        </canvas>
+    <div id="main-container">
+        <div id="canvas-container">
+            <canvas id="canvas">
+                <!-- Votre canvas ici -->
+            </canvas>
+        </div>
+        <div id="history-container">
+            <h2>Historique des pixels placés</h2>
+            <ul id="history-list">
+
+            </ul>
+        </div>
     </div>
     <div id="footer">
         <div id="timer">Vous pouvez poser un pixel !</div>
@@ -37,8 +47,5 @@
     </div>
 </body>
 <script type="module" src="/javascript/Main.js"></script>
-
-<a href="/signup">S'inscrire</a><br/>
-<a href="/login">Se connecter</a>
 
 </html>
