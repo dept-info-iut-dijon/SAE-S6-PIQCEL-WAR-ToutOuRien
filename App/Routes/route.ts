@@ -6,6 +6,7 @@ export const router: Router = express.Router();
 const authController = new Authentification();
 const profileController = new Profile();
 let isConnected = false;
+let token = "";
 
 // Route for rendering the 'index' view
 router.get('/', (req: Request, res: Response) => {
@@ -56,8 +57,12 @@ router.post('/code', (req: Request, res: Response) => {
 // Route for rendering the 'profile' view
 router.get('/profil', async (req: Request, res: Response) => {
   await authController.whoIsConnected(req, res);
-  let profileData = res.locals.sessionData; 
-  res.render('profil', { profileData });
+
+  if(res.statusCode == 200){
+    console.log(res.locals.sessionData.userAccount);
+    res.render('profil', {profileData : res.locals.sessionData.userAccount});
+  
+  }
 });
 
 // Route for rendering the 'changeProfil' view

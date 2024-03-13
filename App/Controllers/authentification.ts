@@ -23,6 +23,7 @@ class Authentification {
     private userDAO: UserDAO;
     private sessionDAO: SessionDAO;
     private generatedCode : string;
+    private token : string = "";
 
     /**
      * Constructor for the Authentification class.
@@ -43,22 +44,14 @@ class Authentification {
      */
     public async whoIsConnected(req: express.Request, res: express.Response): Promise<void> {   
         try {
-            let token = req.cookies['token'];
-            console.log(token);
-            let session = await this.sessionDAO.getSessionByToken(token);
+            let session = await this.sessionDAO.getSessionByToken(this.token);
     
             if (session) {
                 const sessionData = {
                     userAccount : session.Account,
                 };
                 res.locals.sessionData = sessionData;
-    
-                res.status(200).json({
-                    success: true,
-                    message: 'Utilisateur connecté',
-                    session: sessionData,
-                    ID: session.Id
-                });
+
             } else {
                 res.status(400).json({
                     success: false,
@@ -66,7 +59,6 @@ class Authentification {
                 });
             }
         } catch (error) {
-            // Gérez les erreurs
             res.status(500).send('Erreur interne du serveur');
         }
     }
@@ -81,6 +73,7 @@ class Authentification {
     public logout(req: express.Request, res: express.Response): void {
         this.clearSessionCookie(res);
         this.deleteSession(req.cookies['token']);
+        this.token = "";
         res.redirect('/');
     }
 
@@ -163,7 +156,7 @@ class Authentification {
         console.log("create session");
         const dateNow = Date.now() + 86400;
         const token = await Hash.generateToken(mail, dateNow.toString());
-        console.log("test token", token)
+        this.token = token;
         this.sessionDAO.create(new Session(0, token, dateNow, account));
         const session = await this.sessionDAO.getByID(await this.sessionDAO.getLastInsertedID());
         if (session !== null && session !== undefined) {
@@ -285,11 +278,13 @@ class Authentification {
     private setSessionCookie(res: express.Response, token: string): void {
         res.cookie('token', token, {
             path: '/',
-            httpOnly: true,
+            httpOnly: false,
         });
+        res.send();
     }
 
     private clearSessionCookie(res: express.Response): void {
+        this.token = "";
         res.clearCookie('token');
     }
 
