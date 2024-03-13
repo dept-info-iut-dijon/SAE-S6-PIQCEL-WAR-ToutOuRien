@@ -1,8 +1,13 @@
 import express, { Express } from "express";
 import bodyParser from "body-parser";
 import { createServer } from "node:http";
+<<<<<<< Updated upstream:Server.ts
 import { router } from "./App/Routes/route.js";
 import { SocketHandler } from "./App/Controllers/socketHandler.js";
+=======
+import { router } from "../App/Routes/route";
+import { SocketHandler } from "../App/Controllers/socketHandler";
+>>>>>>> Stashed changes:Server/Server.ts
 import { Server as SocketServer } from "socket.io";
 import * as expressHbs from 'express-handlebars';
 

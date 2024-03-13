@@ -1,17 +1,14 @@
 {
   "name": "piqcel-war",
+  "type": "module",
+  "module": "Server/Server.ts",
   "version": "2.0.0",
-  "type": "commonjs",
   "description": "Student project",
-  "main": "app.js",
+  "main": "Server/app.ts",
   "scripts": {
-    "watch": "tsc --watch",
-    "start:app": "npm run copy:public && nodemon ./Build/app.js",
-    "dev": "concurrently -k -n \"Typescript,Node\" -p \"[{name}]\" -c \"blue,green\" \"npm run watch\" \"wait-on ./Build/app.js && npm run start:app\"",
-    "start": "npm run copy:public && node ./Build/app.js",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "copy:public": "copyfiles -u 1 \"./Public/**/!(*.ts)\" ./Build/Public"
+    "build-client": "cd ./Public && bun run build",
+    "dev-api": "bun run Server/app.ts",
+    "dev": "npm-run-all build-client dev-api"
   },
   "repository": {
     "type": "git",
@@ -25,6 +22,7 @@
   "homepage": "https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR#readme",
   "dependencies": {
     "@google-cloud/recaptcha-enterprise": "^4.0.1",
+    "@types/uuid": "^9.0.8",
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
     "cookie": "^0.6.0",
@@ -35,10 +33,12 @@
     "mysql": "^2.18.1",
     "nodemailer": "^6.9.7",
     "recaptcha-verify": "^0.1.1",
+    "simply-either-ts": "^1.0.0",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.4",
     "sqlite3": "^5.1.6",
-    "typescript-cookie": "^1.0.6"
+    "typescript-cookie": "^1.0.6",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.4.11",
