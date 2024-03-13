@@ -153,7 +153,6 @@ class Authentification {
     }
 
     private async createAndSetSession(res: express.Response, mail: string, account: Account): Promise<void> {
-        console.log("create session");
         const dateNow = Date.now() + 86400;
         const token = await Hash.generateToken(mail, dateNow.toString());
         this.token = token;

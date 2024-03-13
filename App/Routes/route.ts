@@ -59,7 +59,6 @@ router.get('/profil', async (req: Request, res: Response) => {
   await authController.whoIsConnected(req, res);
 
   if(res.statusCode == 200){
-    console.log(res.locals.sessionData.userAccount);
     res.render('profil', {profileData : res.locals.sessionData.userAccount});
   
   }

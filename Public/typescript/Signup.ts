@@ -18,7 +18,6 @@ form.addEventListener("submit", async (e) => {
             }, body: ata
     });
     const data = await response.json();
-    console.log(data);
     const message = document.getElementById("errorMessageContainer");
     if (message) {
         message.textContent = data["message"];
