@@ -8,7 +8,6 @@ import { Session } from '../Models/Session';
 import { UserDAO } from '../Models/DAO/userDAO';
 import { SessionDAO } from '../Models/DAO/sessionDAO';
 import { Hash } from '../Libraries/Hash';
-import * as cookie from 'cookie';
 import nodemailer from 'nodemailer';
 
 /**
@@ -24,6 +23,7 @@ class Authentification {
     private userDAO: UserDAO;
     private sessionDAO: SessionDAO;
     private generatedCode : string;
+    private token : string = "";
 
     /**
      * Constructor for the Authentification class.
@@ -42,23 +42,27 @@ class Authentification {
      * @param req Express Request
      * @param res Express Response
      */
-    public whoIsConnected(req: express.Request, res: express.Response): void {
-        let token = req.cookies['token'];
-        let session = this.sessionDAO.getSessionByToken(token);
+    public async whoIsConnected(req: express.Request, res: express.Response): Promise<void> {   
+        try {
+            let session = await this.sessionDAO.getSessionByToken(this.token);
+    
+            if (session) {
+                const sessionData = {
+                    userAccount : session.Account,
+                };
+                res.locals.sessionData = sessionData;
 
-        if (session != null) {
-            res.status(200).json({
-                success: true,
-                message: 'Utilisateur connecté',
-                session,
-            });
-        } else {
-            res.status(400).json({
-                success: false,
-                message: 'Utilisateur non connecté',
-            });
+            } else {
+                res.status(400).json({
+                    success: false,
+                    message: 'Utilisateur non connecté',
+                });
+            }
+        } catch (error) {
+            res.status(500).send('Erreur interne du serveur');
         }
     }
+    
 
     /**
      * Allows a user to disconnect from the website.
@@ -69,6 +73,7 @@ class Authentification {
     public logout(req: express.Request, res: express.Response): void {
         this.clearSessionCookie(res);
         this.deleteSession(req.cookies['token']);
+        this.token = "";
         res.redirect('/');
     }
 
@@ -116,14 +121,13 @@ class Authentification {
      */
     public async postlogin(req: express.Request, res: express.Response) {
         const { mail, psw } = req.body;
-
         try {
             this.validateLoginInput(mail, psw);
             const account = await this.accountDAO.getAccountByMail(mail);
             if (account != null) {
                 let session = await this.createSessionInDb(mail);
-                
                 if (session != null) {
+                    this.createAndSetSession(res,mail,account);
                     this.handleSuccessAcc(res, 'Connexion réussie', account);
                 }
             }
@@ -151,9 +155,9 @@ class Authentification {
     private async createAndSetSession(res: express.Response, mail: string, account: Account): Promise<void> {
         const dateNow = Date.now() + 86400;
         const token = await Hash.generateToken(mail, dateNow.toString());
+        this.token = token;
         this.sessionDAO.create(new Session(0, token, dateNow, account));
         const session = await this.sessionDAO.getByID(await this.sessionDAO.getLastInsertedID());
-
         if (session !== null && session !== undefined) {
             this.setSessionCookie(res, session.Token);
             this.handleSuccess(res, 'Connexion réussie', session);
@@ -273,11 +277,13 @@ class Authentification {
     private setSessionCookie(res: express.Response, token: string): void {
         res.cookie('token', token, {
             path: '/',
-            httpOnly: true,
+            httpOnly: false,
         });
+        res.send();
     }
 
     private clearSessionCookie(res: express.Response): void {
+        this.token = "";
         res.clearCookie('token');
     }
 

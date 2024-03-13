@@ -28,24 +28,22 @@ class Profile {
      * @param res - The HTTP response object to send a response back to the client.
      */
     public async getProfile(req: express.Request, res: express.Response) {
-
         try {
-
             const profileInfo = await this.accountDAO.getByID(req.body.ID);
-
+    
             if (profileInfo) {
+                const profileData = {
+                    Pseudo: profileInfo.Pseudo,
+                    Email: profileInfo.Email
+                };
 
-                const { Pseudo, Email } = profileInfo;
-                res.status(200).json({ Pseudo, Email });
-            } 
-            else {
+                res.locals.profileData = profileData;
+            } else {
+                res.locals.profileData = null;
                 res.status(404).json({ error: 'Profile not found' });
             }
-
-            return profileInfo;
-        } 
-        catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+        } catch (error) {
+            res.status(500).send('Erreur interne du serveur');
         }
     }
 }
