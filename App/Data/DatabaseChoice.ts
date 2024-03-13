@@ -1,8 +1,8 @@
 import { IDatabase } from './IDatabase';
 
 // Import database types here
-import { SQLiteDatabase as SqliteDB } from './sqlite/databaseSqlite.js';
-import { MySqlDatabase as MySqlDB } from './mysql/databaseMySQL.js';
+import { SQLiteDatabase as SqliteDB } from './sqlite/databaseSqlite';
+import { MySqlDatabase as MySqlDB } from './mysql/databaseMySQL';
 
 // Database factory
 export function CreateDatabase(type : string) : IDatabase {

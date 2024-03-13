@@ -20,6 +20,9 @@
     "url": "https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR/issues"
   },
   "homepage": "https://github.com/dept-info-iut-dijon/SAE-S5-PIQCEL-WAR#readme",
+  "bun": {
+    "allowImportingTsExtensions": true
+  },
   "dependencies": {
     "@google-cloud/recaptcha-enterprise": "^4.0.1",
     "@types/uuid": "^9.0.8",
@@ -27,7 +30,7 @@
     "bcrypt": "^5.1.1",
     "cookie": "^0.6.0",
     "ejs": "^3.1.9",
-    "express": "^4.18.2",
+    "express": "^4.18.3",
     "express-handlebars": "^7.1.2",
     "hbs": "^4.2.0",
     "mysql": "^2.18.1",
@@ -44,7 +47,7 @@
     "@flydotio/dockerfile": "^0.4.11",
     "@types/bcrypt": "^5.0.2",
     "@types/body-parser": "^1.19.4",
-    "@types/express": "^4.17.20",
+    "@types/express": "^4.17.21",
     "@types/jest": "^29.5.5",
     "@types/mysql": "^2.15.22",
     "@types/node": "^20.10.0",
@@ -56,7 +59,10 @@
     "npm-run-all": "^4.1.5",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.3.2",
+    "typescript": "^5.3.3",
     "wait-on": "^7.2.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }

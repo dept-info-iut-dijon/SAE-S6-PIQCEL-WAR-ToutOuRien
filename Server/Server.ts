@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import bodyParser from "body-parser";
 import { createServer } from "node:http";
+<<<<<<< HEAD:Server/Server.ts
 <<<<<<< Updated upstream:Server.ts
 import { router } from "./App/Routes/route.js";
 import { SocketHandler } from "./App/Controllers/socketHandler.js";
@@ -8,6 +9,10 @@ import { SocketHandler } from "./App/Controllers/socketHandler.js";
 import { router } from "../App/Routes/route";
 import { SocketHandler } from "../App/Controllers/socketHandler";
 >>>>>>> Stashed changes:Server/Server.ts
+=======
+import { router } from "./App/Routes/route";
+import { SocketHandler } from "./App/Controllers/socketHandler";
+>>>>>>> dev:Server.ts
 import { Server as SocketServer } from "socket.io";
 import * as expressHbs from 'express-handlebars';
 
@@ -28,7 +33,6 @@ export class Server {
   public constructor() {
     this.expressServer = express();
     this.InitialiseExpress();
-    this.InitialiseSocketIo();
   }
 
   /**
@@ -37,8 +41,10 @@ export class Server {
    * @author @Louis-Duboz
    */
   public Start(port: number) {
-    this.expressServer.listen(port, () => {
-      console.log(`Serveur en cours d'écoute sur le port ${port}`);
+    const httpServer = createServer(this.expressServer);
+    this.InitialiseSocketIo(httpServer); // Pass the httpServer to InitialiseSocketIo
+    httpServer.listen(port, () => {
+      console.log(`Server listening on port ${port}`);
     });
   }
 
@@ -50,16 +56,24 @@ export class Server {
   private InitialiseExpress(): void {
     this.expressServer.use(bodyParser.urlencoded({extended: false}));
     this.expressServer.use(bodyParser.json());
+<<<<<<< HEAD:Server/Server.ts
     this.expressServer.use(express.static('./Public')); // Public static root.
+=======
+>>>>>>> dev:Server.ts
     this.expressServer.engine('hbs', expressHbs.engine( // Template engine
-      {
-        extname: "hbs",
-        defaultLayout: "",
-        layoutsDir: "",
-      }
+        {
+          extname: "hbs",
+          defaultLayout: "",
+          layoutsDir: "",
+        }
     ));
+    this.expressServer.use(express.static('./Public')); // Public static root.
     this.expressServer.set("view engine", "hbs");
+<<<<<<< HEAD:Server/Server.ts
     this.expressServer.set("views", "./Public/Views");
+=======
+    this.expressServer.set("views", './Public/Views');
+>>>>>>> dev:Server.ts
     this.expressServer.use(router);
   }
 
@@ -68,9 +82,8 @@ export class Server {
    * @author @Louis-Duboz
    * @private
    */
-  private InitialiseSocketIo(): void {
-    const expressServerCreated: any = createServer(this.expressServer);
-    const socketIo= new SocketServer(expressServerCreated);
+  private InitialiseSocketIo(httpServer: any): void {
+    const socketIo = new SocketServer(httpServer);
     const handler = new SocketHandler();
     handler.initGrid();
 

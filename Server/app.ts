@@ -1,6 +1,6 @@
 <<<<<<< Updated upstream:app.ts
 import {CreateDatabase} from "./App/Data/DatabaseChoice";
-import {Server} from "./Server";
+import {Server} from "./server";
 import {IDatabase} from "./App/Data/IDatabase";
 =======
 import {CreateDatabase} from "../App/Data/DatabaseChoice";

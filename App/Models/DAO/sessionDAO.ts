@@ -38,15 +38,17 @@ class SessionDAO {
      * @param id - The ID of the Session to fetch.
      * @returns A promise that resolves to a Session object, or null if not found.
      */
-    public getByID(id: number): Promise<Session | null> {
-        return this.database.queryOne("SELECT * FROM Session WHERE Id = ?", [id]).then((response) => {
-            let result = null;
-            if (response) {
-                const accountDAO = new AccountDAO(this.database);
-                result = accountDAO.getByID(response.account_id).then((account) => new Session(response.id, response.token, response.creationDate, account));
-            }
-            return result;
-        });
+    public async getByID(id: number): Promise<Session | null> {
+        let result: any = await this.database.queryOne("SELECT * FROM Session WHERE Id = ?", [id]);
+        let session: Session | null = null;
+
+        if (result) {
+            const accountDAO = new AccountDAO(this.database);
+            let account = await accountDAO.getByID(result.account_id!);
+            session = new Session(id, result.token, result.creationDate, account);
+        }
+
+        return session;
     }
 
 
