@@ -1,10 +1,12 @@
 import express, { Express } from "express";
 import bodyParser from "body-parser";
 import { createServer } from "node:http";
-import { router } from "./App/Routes/route";
-import { SocketHandler } from "./App/Controllers/socketHandler";
+import { router } from "./App/Routes/route.js";
+import { SocketHandler } from "./App/Controllers/socketHandler.js";
 import { Server as SocketServer } from "socket.io";
 import * as expressHbs from 'express-handlebars';
+
+export const SERVER = Symbol("SERVER");
 
 /**
  * Represents a server that handles HTTP and WebSocket connections.
@@ -21,6 +23,7 @@ export class Server {
   public constructor() {
     this.expressServer = express();
     this.InitialiseExpress();
+    this.InitialiseSocketIo();
   }
 
   /**
@@ -29,10 +32,8 @@ export class Server {
    * @author @Louis-Duboz
    */
   public Start(port: number) {
-    const httpServer = createServer(this.expressServer);
-    this.InitialiseSocketIo(httpServer); // Pass the httpServer to InitialiseSocketIo
-    httpServer.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
+    this.expressServer.listen(port, () => {
+      console.log(`Serveur en cours d'écoute sur le port ${port}`);
     });
   }
 
@@ -44,16 +45,16 @@ export class Server {
   private InitialiseExpress(): void {
     this.expressServer.use(bodyParser.urlencoded({extended: false}));
     this.expressServer.use(bodyParser.json());
-    this.expressServer.engine('hbs', expressHbs.engine( // Template engine
-        {
-          extname: "hbs",
-          defaultLayout: "",
-          layoutsDir: "",
-        }
-    ));
     this.expressServer.use(express.static('./Public')); // Public static root.
+    this.expressServer.engine('hbs', expressHbs.engine( // Template engine
+      {
+        extname: "hbs",
+        defaultLayout: "",
+        layoutsDir: "",
+      }
+    ));
     this.expressServer.set("view engine", "hbs");
-    this.expressServer.set("views", './Public/Views');
+    this.expressServer.set("views", "./Public/Views");
     this.expressServer.use(router);
   }
 
@@ -62,8 +63,9 @@ export class Server {
    * @author @Louis-Duboz
    * @private
    */
-  private InitialiseSocketIo(httpServer: any): void {
-    const socketIo = new SocketServer(httpServer);
+  private InitialiseSocketIo(): void {
+    const expressServerCreated: any = createServer(this.expressServer);
+    const socketIo= new SocketServer(expressServerCreated);
     const handler = new SocketHandler();
     handler.initGrid();
 
