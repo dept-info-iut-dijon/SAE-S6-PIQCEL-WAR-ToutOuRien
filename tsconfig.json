@@ -17,7 +17,12 @@
     "sourceMap": true,
     "strict": true,
     "baseUrl": "./",
-
+    "lib": ["ES2022"],
+    "paths": {
+      "@modules/*": [
+        "./App/Modules/*"
+      ]
+    },
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
   },

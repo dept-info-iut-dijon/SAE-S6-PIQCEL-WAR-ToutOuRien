@@ -1,10 +1,10 @@
 import express, { Express } from "express";
-import bodyParser from "body-parser";
 import { createServer } from "node:http";
-import { router } from "./App/Routes/route";
-import { SocketHandler } from "./App/Controllers/socketHandler";
+import { router } from "../App/Routes/route";
+import { SocketHandler } from "../App/Controllers/socketHandler";
 import { Server as SocketServer } from "socket.io";
 import * as expressHbs from 'express-handlebars';
+import bodyParser from "body-parser";
 
 export const SERVER = Symbol("SERVER");
 

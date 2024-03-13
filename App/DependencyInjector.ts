@@ -1,5 +1,5 @@
 import {ServiceLocator} from "./ServiceLocator";
-import {SERVER, Server} from "../Server";
+import {SERVER, Server} from "../Server/Server";
 
 export class DependencyInjector {
     private serviceLocator: ServiceLocator;
