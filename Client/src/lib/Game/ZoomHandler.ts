@@ -1,3 +1,6 @@
+/**
+ * Represents a class that handles the zooming of the game.
+ */
 export class ZoomHandler {
     private targetZoom: number;
     private zoomFactor: number;
@@ -16,6 +19,9 @@ export class ZoomHandler {
 
     public get ZoomFactor(): number { return this.zoomFactor; }
 
+    /**
+     * Update loop method that will be called every frame.
+     */
     private UpdateLoop(): void {
         const currentTime: number = performance.now();
         const deltaTime: number = (currentTime - this.lastTime) / 1000;
@@ -24,6 +30,10 @@ export class ZoomHandler {
         requestAnimationFrame(this.UpdateLoop.bind(this));
     }
 
+    /**
+     * Updates the zoom factor to the target zoom factor.
+     * @param deltaTime - The time between the last frame and the current frame.
+     */
     private UpdateZoomFactorToTarget(deltaTime: number): void {
         const difference: number = this.targetZoom - this.zoomFactor;
         this.zoomFactor += difference * this.speed * deltaTime;
@@ -34,6 +44,10 @@ export class ZoomHandler {
             this.zoomFactor = this.targetZoom;
     }
 
+    /**
+     * Event handler for the wheel event.
+     * @param event - The wheel event.
+     */
     private OnScroll(event: WheelEvent): void {
         if (event.deltaY < 0) {
             this.ZoomIn();
@@ -42,10 +56,16 @@ export class ZoomHandler {
         }
     }
 
+    /**
+     * Zooms in the game.
+     */
     private ZoomIn(): void {
         this.targetZoom += this.zoomFactor * 0.1;
     }
 
+    /**
+     * Zooms out the game.
+     */
     private ZoomOut(): void {
         this.targetZoom -= this.zoomFactor * 0.1;
     }

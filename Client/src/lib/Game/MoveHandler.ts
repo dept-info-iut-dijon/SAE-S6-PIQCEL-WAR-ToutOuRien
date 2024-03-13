@@ -1,3 +1,6 @@
+/**
+ * Represents a class that handles the movement of the game using the mouse.
+ */
 export class MoveHandler {
     private isDragging: boolean;
     private startX: number;
@@ -23,12 +26,24 @@ export class MoveHandler {
         document.addEventListener("mousemove", this.onMouseMove.bind(this));
     }
 
+    public get OffsetX(): number { return this.offsetX + this.currentX; }
+    public get OffsetY(): number { return this.offsetY + this.currentY; }
+    public UpdateSpeed(speed: number): void { this.speed = speed; }
+
+    /**
+     * Event handler for the mousedown event.
+     * @param event - The mousedown event.
+     */
     private onMouseDown(event: MouseEvent): void {
         this.isDragging = true;
         this.startX = event.clientX;
         this.startY = event.clientY;
     }
 
+    /**
+     * Event handler for the mouseup event.
+     * @param event - The mouseup event.
+     */
     private onMouseUp(event: MouseEvent): void {
         this.isDragging = false;
         this.offsetX += this.currentX;
@@ -37,22 +52,14 @@ export class MoveHandler {
         this.currentY = 0;
     }
 
+    /**
+     * Event handler for the mousemove event.
+     * @param event - The mousemove event.
+     */
     private onMouseMove(event: MouseEvent): void {
         if (!this.isDragging) return;
 
         this.currentX = (event.clientX - this.startX) / this.speed;
         this.currentY = (event.clientY - this.startY) / this.speed;
-    }
-
-    public get OffsetX(): number {
-        return this.offsetX + this.currentX;
-    }
-
-    public get OffsetY(): number {
-        return this.offsetY + this.currentY;
-    }
-
-    public UpdateSpeed(speed: number): void {
-        this.speed = speed;
     }
 }
