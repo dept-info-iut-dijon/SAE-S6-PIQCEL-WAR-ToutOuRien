@@ -1,12 +1,17 @@
 import {Entity} from "@modules/Entity/Domain/Entity";
 import {IPixel} from "../../Pixel/Domain/IPixel";
+import {IGame} from "@modules/Game/Domain/IGame";
+import {Type} from "class-transformer";
+import {ExposeProperties} from "@modules/Kernel/Decorators/ExposeProperties";
+import {Pixel} from "@modules/Pixel/Domain/Pixel";
 
 /**
  * Represents the game entity which contains all the pixels set by users.
  */
-export class Game extends Entity {
+@ExposeProperties()
+export class Game extends Entity implements IGame {
     private readonly pixels: Array<IPixel>;
-    private readonly pixelsHistory: Map<Date, IPixel>;
+    @Type(() => Map) private readonly pixelsHistory: Map<Date, IPixel>;
     private readonly width: number;
     private readonly height: number;
 

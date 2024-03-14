@@ -5,6 +5,12 @@ import { SocketHandler } from "../App/Controllers/socketHandler";
 import { Server as SocketServer } from "socket.io";
 import * as expressHbs from 'express-handlebars';
 import bodyParser from "body-parser";
+import cors from "cors";
+import {ApplicationEvents} from "../App/ApplicationEvents";
+import {IAddPixelDto} from "@modules/Game/Application/IAddPixelDto";
+import {gameController} from "../Client/src/lib/main";
+import {gameService} from "./main";
+import * as console from "console";
 
 export const SERVER = Symbol("SERVER");
 
@@ -14,50 +20,54 @@ export const SERVER = Symbol("SERVER");
  * @author @Louis-Duboz
  */
 export class Server {
-  private readonly expressServer: Express;
+    private readonly expressServer: Express;
 
-  /**
-   * Initializes a new instance of the Server class.
-   * @author @Louis-Duboz
-   */
-  public constructor() {
-    this.expressServer = express();
-    this.InitialiseExpress();
-  }
+    /**
+     * Initializes a new instance of the Server class.
+     * @author @Louis-Duboz
+     */
+    public constructor() {
+        this.expressServer = express();
+        this.InitialiseExpress();
+    }
 
-  /**
-   * Starts the server on the specified port.
-   * @param port The port number to listen on.
-   * @author @Louis-Duboz
-   */
-  public Start(port: number) {
-    const httpServer = createServer(this.expressServer);
-    this.InitialiseSocketIo(httpServer); // Pass the httpServer to InitialiseSocketIo
-    httpServer.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
-    });
-  }
+    public get Router(): Express { return this.expressServer; }
 
-  /**
-   * Initializes the Express server with middleware and settings.
-   * @author @Louis-Duboz
-   * @private
-   */
-  private InitialiseExpress(): void {
-    this.expressServer.use(bodyParser.urlencoded({extended: false}));
-    this.expressServer.use(bodyParser.json());
-    this.expressServer.use(express.static('./Public')); // Public static root.
-    this.expressServer.engine('hbs', expressHbs.engine( // Template engine
-        {
-          extname: "hbs",
-          defaultLayout: "",
-          layoutsDir: "",
-        }
-    ));
-    this.expressServer.use(express.static('./Public')); // Public static root.
-    this.expressServer.set("view engine", "hbs");
-    this.expressServer.set("views", "./Public/Views");
-    this.expressServer.use(router);
+    /**
+     * Starts the server on the specified port.
+     * @param port The port number to listen on.
+     * @author @Louis-Duboz
+     */
+    public Start(port: number) {
+        const httpServer = createServer(this.expressServer);
+        this.InitialiseSocketIo(httpServer); // Pass the httpServer to InitialiseSocketIo
+        httpServer.listen(port, () => {
+            console.log(`Server listening on port ${port}`);
+        });
+    }
+
+    /**
+     * Initializes the Express server with middleware and settings.
+     * @author @Louis-Duboz
+     * @private
+     */
+    private InitialiseExpress(): void {
+        this.expressServer.use(cors({
+            origin: "http://localhost:5173"
+        }));
+        this.expressServer.use(bodyParser.json());
+        this.expressServer.use(express.static('./Public')); // Public static root.
+        this.expressServer.engine('hbs', expressHbs.engine( // Template engine
+            {
+                extname: "hbs",
+                defaultLayout: "",
+                layoutsDir: "",
+            }
+        ));
+        this.expressServer.use(express.static('./Public')); // Public static root.
+        this.expressServer.set("view engine", "hbs");
+        this.expressServer.set("views", "./Public/Views");
+        this.expressServer.use(router);
   }
 
   /**
@@ -66,30 +76,35 @@ export class Server {
    * @private
    */
   private InitialiseSocketIo(httpServer: any): void {
-    const socketIo = new SocketServer(httpServer);
-    const handler = new SocketHandler();
-    handler.initGrid();
-
-    console.log('Liaison entre le serveur Web et le serveur de WebSocket ...');
-
-    socketIo.on('connection', async (socket: any) => {
-      console.log('a user connected');
-      let grid = await handler.getAllPixels();
-      socket.emit('initGrid', grid);
-
-      // Place events here
-      // Example:
-      // 'pixelChange' is the name of the event
-      // 'msg' is the message sent by the client, for example, coordinates like msg = { xCoordinate: x, yCoordinate: y, pixelColor: color, userTarget: user }
-      socket.on('pixelChange', (msg: any) => {
-        console.log(`Pixel change at [ ${msg.xCoordinate} ; ${msg.yCoordinate} ]`)
-        socketIo.emit('pixelChange', msg);
-        handler.changePixel(msg.xCoordinate, msg.yCoordinate, msg.pixelColor, msg.userTarget);
+      const socketIo = new SocketServer<ApplicationEvents>(httpServer, {
+          cors: {
+              origin: "http://localhost:5173",
+              methods: ["GET", "POST"],
+              allowedHeaders: ["session"],
+              credentials: true
+          }
       });
 
-      socket.on('disconnect', () => {
-        console.log('user disconnected');
-      });
+      const handler = new SocketHandler();
+      handler.initGrid();
+
+      console.log('Liaison entre le serveur Web et le serveur de WebSocket ...');
+
+      socketIo.on('connection', async (socket: any) => {
+          console.log('a user connected');
+          let grid = await handler.getAllPixels();
+          socket.emit('initGrid', grid);
+
+          socket.on('AddPixel', (addPixelDto: IAddPixelDto) => {
+              console.log(addPixelDto);
+              console.log(`Pixel change at [ ${addPixelDto.X} ; ${addPixelDto.Y} ]`)
+              socketIo.emit("AddPixel", addPixelDto);
+              gameService.AddPixel(addPixelDto);
+          });
+
+          socket.on('disconnect', () => {
+              console.log('user disconnected');
+          });
     });
   }
 }

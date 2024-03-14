@@ -1,5 +1,5 @@
 import { IDatabase } from "../../Data/IDatabase";
-import { Pixel } from "../Pixel";
+import { Pixel } from "@modules/Pixel/Domain/Pixel";
 import { UserDAO } from "./userDAO";
 
 /**

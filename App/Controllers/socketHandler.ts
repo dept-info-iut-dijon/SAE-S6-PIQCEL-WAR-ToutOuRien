@@ -1,6 +1,6 @@
 import { CreateDatabase } from "../Data/DatabaseChoice";
 import { PixelDAO } from "../Models/DAO/pixelDAO";
-import { Pixel } from "../Models/Pixel";
+import { Pixel } from "@modules/Pixel/Domain/Pixel";
 
 /**
  * Represents a class for handling socket-related operations in a pixel grid.
@@ -9,7 +9,7 @@ class SocketHandler{
     private pixelDAO : PixelDAO;
 
     /**
-     * Creates a new instance of SocketHandler.
+     * Creates a new instance of SocketManager.
      * Initializes the pixelDAO property with a new instance of PixelDAO, using the provided database.
      */
     constructor() {
@@ -24,7 +24,7 @@ class SocketHandler{
      * @param color - The new color for the pixel.
      * @param userID - The ID of the user making the change.
      */
-    public changePixel(x : number, y : number, color : string, userID : number){
+    public changePixel(x : number, y : number, color : string, userID : string){
         this.pixelDAO.changePixelColor(x,y,color,userID);
     }
 

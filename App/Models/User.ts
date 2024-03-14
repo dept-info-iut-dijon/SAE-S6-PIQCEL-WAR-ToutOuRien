@@ -17,7 +17,7 @@ class User {
      * @param {string} lastName - The last name of the user.
      * @param {Date} firstName - The first name of the user.
      */
-    constructor(id : number, lastName : string, firstName : string) {
+    constructor(id: number, lastName : string, firstName : string) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
