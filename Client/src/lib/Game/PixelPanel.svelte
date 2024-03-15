@@ -14,6 +14,9 @@
         $pixelSelected.Color = colorPicker;
     }
 
+    /**
+     * Cool down the user for a certain duration after a pixel has been added
+     */
     function StartCooldown(duration: number) {
         isCooldown = true;
         timeOfCooldownRemaining = duration;
@@ -26,6 +29,9 @@
         }, 1000);
     }
 
+    /**
+     * Validate the pixel selection and add it to the canvas
+     */
     async function ValidatePixelSelection(): Promise<void> {
         if ($pixelSelected != null) {
             await AddPixel();
@@ -34,6 +40,9 @@
         }
     }
 
+    /**
+     * Cancel the pixel selection
+     */
     function CancelPixelSelection(): void {
         $pixelSelected = null;
     }
