@@ -10,17 +10,22 @@ import type {IAddPixelDto} from "@modules/Game/Application/IAddPixelDto";
 import type {IPixelRepository} from "@modules/Pixel/Domain/IPixelRepository";
 import {Pixel} from "@modules/Pixel/Domain/Pixel";
 
+/**
+ * Represents the game service.
+ */
 export class GameService implements IGameService {
     private readonly socketManager: SocketManager;
     private readonly gameRepository: IGameRepository;
     private readonly pixelRepository: IPixelRepository;
-    private currentGame?: IGame;
 
     public constructor(socketManager: SocketManager, gameRepository: IGameRepository, pixelRepository: IPixelRepository) {
         this.socketManager = socketManager;
         this.gameRepository = gameRepository;
         this.pixelRepository = pixelRepository;
 
+        /**
+         * Listens for the AddPixel event.
+         */
         this.socketManager.ListenForEvent("AddPixel", async (msg: IAddPixelDto) => {
             await this.AddPixel(msg, false);
         });
@@ -52,7 +57,7 @@ export class GameService implements IGameService {
         if (result.IsFailure)
             throw new EntityNotFound("Game");
 
-        let game: Game = result.Success;
+        let game: Game = result.Success as Game;
 
         if (save)
             this.socketManager.HandleEvent("AddPixel", addPixelDto);

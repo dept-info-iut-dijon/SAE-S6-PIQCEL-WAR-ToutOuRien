@@ -30,6 +30,9 @@
         UpdateLoop();
     }
 
+    /**
+     * Calculate the relative pixel size based on the canvas size and the game size.
+     */
     function CalculateRelativePixelSize(): void {
         if (!game)
             return;
@@ -46,6 +49,14 @@
         }
     };
 
+    /**
+     * Draw a rectangle on the canvas.
+     * @param x - The x position of the rectangle.
+     * @param y - The y position of the rectangle.
+     * @param width - The width of the rectangle.
+     * @param height - The height of the rectangle.
+     * @param color - The color of the rectangle.
+     */
     function DrawRectangle(x: number, y: number, width: number, height: number, color: string): void {
         context.fillStyle = color;
 
@@ -54,18 +65,33 @@
         context.fillRect(screenPosition.X, screenPosition.Y, width, height);
     }
 
+    /**
+     * Convert a game position to a screen position.
+     * @param x - The x position of the game.
+     * @param y - The y position of the game.
+     */
     function ToScreenPosition(x: number, y: number): Position {
         let screenX: number = x + centerX - finalGameWidth / 2 + moveHandler.OffsetX * zoomHandler.ZoomFactor;
         let screenY: number = y + centerY - finalGameHeight / 2 + moveHandler.OffsetY * zoomHandler.ZoomFactor;
         return new Position(screenX, screenY);
     }
 
+    /**
+     * Convert a screen position to a game position.
+     * @param x - The x position of the screen.
+     * @param y - The y position of the screen.
+     */
     function ToGamePosition(x: number, y: number): Position {
         let gameX: number = x - centerX + finalGameWidth / 2 - moveHandler.OffsetX * zoomHandler.ZoomFactor;
         let gameY: number = y - centerY + finalGameHeight / 2 - moveHandler.OffsetY * zoomHandler.ZoomFactor;
         return new Position(gameX, gameY);
     }
 
+    /**
+     * Load the pixel that is selected by the user.
+     * @param x - The x position of the mouse.
+     * @param y - The y position of the mouse.
+     */
     function LoadSelectedPixel(x: number, y: number): void {
         let gamePosition: Position = ToGamePosition(x, y);
 
@@ -79,6 +105,9 @@
         }
     }
 
+    /**
+     * The pixel that is selected by the user.
+     */
     function OnCanvasClick(event: MouseEvent): void {
         switch (event.button) {
             case 0:
@@ -92,6 +121,9 @@
         }
     }
 
+    /**
+     * The pixel that is selected by the user.
+     */
     function UpdateLoop(): void {
         if (!game)
             requestAnimationFrame(UpdateLoop);
@@ -103,6 +135,9 @@
         }
     }
 
+    /**
+     * Draw the game on the canvas.
+     */
     function Draw(): void {
         DrawRectangle(0, 0, finalGameWidth, finalGameHeight, "white");
 
@@ -123,6 +158,9 @@
         }
     }
 
+    /**
+     * Refresh the canvas.
+     */
     function RefreshCanvas(): void {
         context.clearRect(0, 0, canvas.width, canvas.height);
         CalculateRelativePixelSize();
@@ -134,6 +172,9 @@
         context = canvas.getContext('2d')!;
     });
 
+    /**
+     * Resize the canvas.
+     */
     function Resize(): void {
         canvas.width = canvasContainer.clientWidth;
         canvas.height = canvasContainer.clientHeight;

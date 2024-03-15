@@ -1,3 +1,6 @@
+/**
+ * Represents a position on the canvas.
+ */
 export class Position {
     private x: number;
     private y: number;
