@@ -1,15 +1,35 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "checkJs": false,
     "esModuleInterop": true,
-    "outDir": "./App",
-    "rootDir": "./App",
-    "target": "es6",
     "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "baseUrl": "./",
+    "lib": ["ES2022"],
+    "paths": {
+      "@modules/*": [
+        "./Modules/*"
+      ]
+    },
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "./App/**/*.ts"
+    "./**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
