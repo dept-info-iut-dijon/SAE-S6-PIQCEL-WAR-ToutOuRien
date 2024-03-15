@@ -143,5 +143,5 @@ dist
 
 # SvelteKit build / generate output
 .svelte-kit
-bun.lockb
+*.lockb
 /Public/javascript/
