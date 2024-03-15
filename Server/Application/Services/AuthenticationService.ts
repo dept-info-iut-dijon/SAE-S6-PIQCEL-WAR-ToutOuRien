@@ -28,12 +28,13 @@ export class AuthenticationService implements IAuthenticationService {
     }
 
     public async Login(loginDto: ILoginDto): Promise<Either<string, UserCanNotLogin>> {
-        console.log(loginDto.Password)
         let hashedPassword: string = await this.canHash.Hash(loginDto.Password);
 
         let result = await this.accountRepository.FindOneWhere(
-            (account: IAccount) => (account.Email === loginDto.Identifier || account.Pseudo == loginDto.Identifier)
-            && account.Password === hashedPassword
+            (account: IAccount) => {
+                return (account.Email === loginDto.Identifier || account.Pseudo == loginDto.Identifier)
+                    && account.Password === hashedPassword;
+            }
         );
 
         if (result.IsFailure)

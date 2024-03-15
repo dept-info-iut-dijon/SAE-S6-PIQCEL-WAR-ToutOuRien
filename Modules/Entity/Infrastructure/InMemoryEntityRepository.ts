@@ -37,8 +37,6 @@ export class InMemoryEntityRepository<TEntity extends IEntity> implements IEntit
 
     public async FindOneWhere(predicate: (entity: TEntity) => boolean): Promise<Either<TEntity, EntityNotFound>> {
         let result: Either<TEntity, EntityNotFound> = Failure(new EntityNotFound());
-        console.log(predicate)
-        console.log(result.Value)
 
         for (const entity of this.entities) {
             if (predicate(entity))

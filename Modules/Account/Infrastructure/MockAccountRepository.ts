@@ -19,7 +19,7 @@ export class MockAccountRepository extends InMemoryAccountRepository implements 
      * Initialize the repository.
      */
     public async Initialize(): Promise<void> {
-        let bob: IAccount = new Account("0", "bob@gmail.com", "bob", "$2b$10$UBrwjVWlbg4yVIR2GOYyH.Qorn7E9nkJxa2U0V6J6gTKPkxuowp4C", true)
+        let bob: IAccount = new Account("0", "bob@gmail.com", "bob", "5e8b9a2dcc4defb76a98b87da95f13e528365b0abf1858c9d0459bb1a7597495", true)
         await this.Add(bob);
     }
 }
