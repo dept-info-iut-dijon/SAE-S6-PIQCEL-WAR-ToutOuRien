@@ -2,27 +2,29 @@ import {IPixelRepository} from "@modules/Pixel/Domain/IPixelRepository";
 import {IPixel} from "@modules/Pixel/Domain/IPixel";
 import {IGameRepository} from "@modules/Game/Domain/IGameRepository";
 import {Game} from "@modules/Game/Domain/Game";
-import {GameNotFound} from "@modules/Game/Domain/Errors/GameNotFound";
-import {UserService} from "@modules/User/Application/UserService";
-import {UserNotFound} from "@modules/User/Domain/Errors/UserNotFound";
 import {IGameService} from "@modules/Game/Application/IGameService";
-import {UuidProvider} from "@modules/Kernel/Application/UuidProvider";
+import {UuidProvider} from "../../Infrastructure/UuidProvider";
 import {IGame} from "@modules/Game/Domain/IGame";
 import {IAddPixelDto} from "@modules/Game/Application/IAddPixelDto";
 import {EntityNotFound} from "@modules/Entity/Domain/Errors/EntityNotFound";
 import {Pixel} from "@modules/Pixel/Domain/Pixel";
+import {AccountService} from "@modules/Account/Application/AccountService";
+import {IIdentifierGenerator} from "@modules/Kernel/Application/IIdentifierGenerator";
 
+/**
+ * Represents the game service.
+ */
 export class GameService implements IGameService {
     private gameRepository: IGameRepository;
-    private userService: UserService;
+    private accountService: AccountService;
     private pixelRepository: IPixelRepository;
-    private identifierProvider: UuidProvider;
+    private identifierGenerator: IIdentifierGenerator;
 
-    public constructor(gameRepository: IGameRepository, userService: UserService, pixelRepository: IPixelRepository) {
+    public constructor(gameRepository: IGameRepository, accountService: AccountService, pixelRepository: IPixelRepository, identifierProvider: IIdentifierGenerator) {
         this.gameRepository = gameRepository;
-        this.userService = userService;
+        this.accountService = accountService;
         this.pixelRepository = pixelRepository;
-        this.identifierProvider = new UuidProvider();
+        this.identifierGenerator = identifierProvider;
     }
 
     public async CreateGame(width: number, height: number): Promise<IGame> {
@@ -32,7 +34,7 @@ export class GameService implements IGameService {
         if (doesAGameExist.length > 1) {
             game = doesAGameExist[0];
         } else {
-            let identifier: string = await this.identifierProvider.GenerateUuid();
+            let identifier: string = await this.identifierGenerator.GenerateIdentifier();
             game = new Game(identifier, width, height);
             await this.gameRepository.Add(game);
         }
@@ -46,8 +48,7 @@ export class GameService implements IGameService {
         if (result.IsFailure)
             throw new EntityNotFound("Game");
 
-        let game: Game;
-        game = result.Success;
+        let game: Game = result.Success as Game;
         let pixel: IPixel = Pixel.Create(addPixelDto.X, addPixelDto.Y, addPixelDto.Color, addPixelDto.OwnerId);
 
         await this.pixelRepository.Add(pixel);

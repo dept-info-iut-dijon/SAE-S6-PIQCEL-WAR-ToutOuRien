@@ -6,9 +6,9 @@
   "description": "Student project",
   "main": "Server/main.ts",
   "scripts": {
-    "build-client": "cd ./Public && bun run build",
-    "dev-api": "bun run Server/main.ts",
-    "dev": "npm-run-all build-client dev-api"
+    "dev-client": "cd ./Client && npm run dev",
+    "dev-api": "bun --watch Server/main.ts",
+    "dev": "concurrently \"npm:dev-api\" \"npm:dev-client\""
   },
   "repository": {
     "type": "git",

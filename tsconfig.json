@@ -20,7 +20,7 @@
     "lib": ["ES2022"],
     "paths": {
       "@modules/*": [
-        "./App/Modules/*"
+        "./Modules/*"
       ]
     },
     "moduleResolution": "node",

@@ -18,6 +18,6 @@ export class GameController {
     }
 
     public async AddPixel(addPixelDto: IAddPixelDto): Promise<void> {
-        await this.gameService.AddPixel(addPixelDto);
+        await this.gameService.AddPixel(addPixelDto, true);
     }
 }

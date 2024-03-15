@@ -3,7 +3,7 @@ module.exports = {
   testEnvironment: 'node',
   testMatch: ['**/*.spec.ts', "**/*.test.ts"],
   moduleNameMapper: {
-    "^@modules/(.*)$": "<rootDir>/App/Modules/$1"
+    "^@modules/(.*)$": "<rootDir>/Modules/$1"
   },
   moduleDirectories: ["./node_modules", "./App"],
   transform: {

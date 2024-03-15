@@ -9,29 +9,25 @@ import {JsonService} from "@modules/Kernel/Infrastructure/JsonService";
 import type {IAddPixelDto} from "@modules/Game/Application/IAddPixelDto";
 import type {IPixelRepository} from "@modules/Pixel/Domain/IPixelRepository";
 import {Pixel} from "@modules/Pixel/Domain/Pixel";
-import {instanceToInstance} from "class-transformer";
 
 export class GameService implements IGameService {
     private readonly socketManager: SocketManager;
     private readonly gameRepository: IGameRepository;
     private readonly pixelRepository: IPixelRepository;
+    private currentGame?: IGame;
 
     public constructor(socketManager: SocketManager, gameRepository: IGameRepository, pixelRepository: IPixelRepository) {
         this.socketManager = socketManager;
         this.gameRepository = gameRepository;
         this.pixelRepository = pixelRepository;
-    }
 
-    private OnAddPixelEvent(pixel: IPixel): void {
-     //   pixel.
-        /*this.socketManager.ListenForEvent("AddPixel", (msg: { xCoordinate: number, yCoordinate: number, pixelColor: string }) => {
-            grid.SetColor(msg.xCoordinate, msg.yCoordinate, msg.pixelColor);
-        });*/
+        this.socketManager.ListenForEvent("AddPixel", async (msg: IAddPixelDto) => {
+            await this.AddPixel(msg, false);
+        });
     }
 
     public async CreateGame(width: number, height: number): Promise<IGame> {
         let game: Game = new Game("", width, height);
-        let json = JsonService.Serialise(game);
 
         const response = await fetch("http://localhost:3000/game", {
             method: "POST",
@@ -50,19 +46,19 @@ export class GameService implements IGameService {
         return game;
     }
 
-    public async AddPixel(addPixelDto: IAddPixelDto): Promise<void> {
+    public async AddPixel(addPixelDto: IAddPixelDto, save: boolean): Promise<void> {
         let result = await this.gameRepository.FindByIdentifier(addPixelDto.GameId);
-        let game: Game;
 
         if (result.IsFailure)
             throw new EntityNotFound("Game");
 
-        game = result.Success;
-        this.socketManager.HandleEvent("AddPixel", addPixelDto);
+        let game: Game = result.Success;
+
+        if (save)
+            this.socketManager.HandleEvent("AddPixel", addPixelDto);
+
         let pixel: IPixel = Pixel.Create(addPixelDto.X, addPixelDto.Y, addPixelDto.Color, addPixelDto.OwnerId);
-
         await this.pixelRepository.Add(pixel);
-
         game.AddPixel(pixel);
     }
 }

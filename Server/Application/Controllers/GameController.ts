@@ -4,10 +4,11 @@ import {BaseController} from "./BaseController";
 import express, {Router} from "express";
 import {Methods} from "./Methods";
 import {JsonService} from "@modules/Kernel/Infrastructure/JsonService";
-import {Game} from "@modules/Game/Domain/Game";
 import * as console from "console";
-import {instanceToInstance, plainToClassFromExist} from "class-transformer";
 
+/**
+ * Represents the game controller.
+ */
 export class GameController extends BaseController {
     private readonly gameService: IGameService;
 
@@ -21,7 +22,6 @@ export class GameController extends BaseController {
     }
 
     public CreateGame = async (req: express.Request, res: express.Response): Promise<void> => {
-
         try {
             let game: IGame = req.body;
             game = await this.gameService.CreateGame(game.Width, game.Height);
